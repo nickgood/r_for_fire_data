@@ -8,9 +8,16 @@ output:
     theme: yeti
 ---
 
+```{r global_options, include=FALSE}
+  knitr::opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE, results = 'hide')
+```
+opts_knit$set(warning = FALSE, message = FALSE)
+
 # ARCTAS
 
 In our first example we'll look at some data from the [ARCTAS campaign] (https://www.nasa.gov/mission_pages/arctas/smoke_plumes.html).
+
+---
 
 # Libraries
 
@@ -24,49 +31,135 @@ To download a new package you can navigate to `tools` -> `install packages`. Or 
 
 Once a package is installed you need to tell R to make it available for use. We can do this with the `library()` function:
 
-```{r, warning = FALSE}
+```{r}
   library(dplyr)
   library(ggplot2)
   library(ggmap)
 ```
 
+---
+
 # Source files
 
-Often we'll want to access code we've saved somewhere else. We can use the `source` function to include r scripts
+Often we'll want to access code we've saved somewhere else. We can use the `source` function to include r scripts. For today's exercise you'll need to download a script called `r_functions`. Navigate to the course's [shared google drive folder](https://tinyurl.com/R-for-fire-data) and download the scripts folder. Make a copy of the scripts folder in your working directory. Then run the following line of code:
 
 ```{r}
  source("scripts/r_functions.R")
 ```
 
+R will look for the script `r_functions.R` in the folder `scripts`. Check the console for an error messages.
+
 # Loading the data
 
-```{r}
-  data <- lapply(list.files("../data/arctas",
-                            pattern = "_R14.ict$",
-                            full.names = TRUE),
-                 read_ict_file) %>%
-          bind_rows() %>%
-          mutate_all(funs(replace(., . <= -0.1e+9, NA))) %>%
-          mutate(lon = ifelse(longitude > 180, (-1 * (360 - longitude)), longitude))
-```
+We're going to look at some data from the [Arctas](https://www-air.larc.nasa.gov/cgi-bin/arcstat-c) project. You'll need to download the [dataset](https://tinyurl.com/R-for-fire-data).
 
-# Exploring the data
+![](images/arctas.PNG)
+<br>
 
-* Plot the flight track
+* Look at the code below. Where do you think R is going to look for the dataset when loading?
+
+* Let's check out the help documentation for some of the functions used in the code segment below (`lapply`, `bind_rows`).
+
+* Try running the code. An `object` named `data` should appear in your working environment.
 
 ```{r}
-  ggplot(data, aes(lon, latitude)) + geom_point()
+  arctas_data <- lapply(list.files("../data/arctas",
+                                   pattern = "_R14.ict$",
+                                   full.names = TRUE),
+                        read_ict_file) %>%
+                 bind_rows()
 ```
 
-* add map
+---
+
+# Working with dataframes
+
+* Determine the class of the object `arctas_data`.
 
 ```{r}
- 
-
-  map <- get_map(location = c(lon = mean(data$lon), lat = mean(data$latitude)), zoom = 3,
-                      maptype = "satellite", scale = 1)
-
-  ggmap(map) + geom_point(data = data, aes(lon, latitude, color = hcn_cit))
-
+  class(arctas_data)
 ```
+
+
+Data frames are a common way to stored data in R. Each column has a name, each column is the same length, each column element has the same class.
+
+* Determine the class of the first column:
+
+```{r}
+  class(arctas_data$utc)
+```
+
+* How many rows and columns are there in the dataset?
+
+```{r}
+  nrow(arctas_data)
+  ncol(arctas_data)
+```
+
+* extract the names of each colum
+
+```{r}
+  colnames(arctas_data)
+```
+
+* extract the first row
+
+```{r}
+  first_row <- arctas_data[,1]
+```
+
+* extract the first column
+
+```{r}
+  first_col <- arctas_data[1,]
+```
+
+* extract the `no` mixing ratio in the fourth column
+
+```{r}
+  no_col_4 <- arctas_data$no[4]
+```
+
+* extract the `no` mixing ratios for flight number 10
+
+```{r}
+  no_flight_10 <- arctas_data$no[which(arctas_data$flight == 10)]
+```
+
+* Try typing `arctas_data` into your console and then `enter`. What happends?
+
+---
+
+# Summary statistics
+
+* Calculate the minumum and maximum `no` values. What do you notice?
+
+```{r}
+  no_min <- min(arctas_data$no)
+  no_max <- max(arctas_data$no)
+```
+
+* Let's clean up the data
+
+```{r}
+  arctas_data[arctas_data < -1e+8] <- NA
+
+  plot(arctas_data$no)
+```
+
+* Recalculate the minumum and maximum `no` values. What do you notice?
+
+* Let's try this instead:
+
+```{r}
+  no_min <- min(arctas_data$no, na.rm = TRUE)
+  no_max <- max(arctas_data$no, na.rm = TRUE)
+```
+
+* And finally this:
+
+```{r}
+  summary(arctas_data$no)
+```
+---
 
