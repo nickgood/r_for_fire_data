@@ -8,3 +8,57 @@ output:
     theme: yeti
 ---
 
+# ARCTAS
+
+In our first example we'll look at some data from the [ARCTAS campaign] (https://www.nasa.gov/mission_pages/arctas/smoke_plumes.html).
+
+# Libraries
+
+First we need to include some additional libraries in our session
+
+```{r}
+  library(dplyr)
+  library(ggplot2)
+  library(ggmap)
+```
+
+# Source files
+
+Often we'll want to access code we've saved somewhere else. We can use the `source` function to include r scripts 
+
+```{r}
+ source("scripts/r_functions.R")
+```
+
+# Loading the data
+
+```{r}
+  data <- lapply(list.files("../data/arctas",
+                            pattern = "_R14.ict$",
+                            full.names = TRUE),
+                 read_ict_file) %>%
+          bind_rows() %>%
+          mutate_all(funs(replace(., . <= -0.1e+9, NA))) %>%
+          mutate(lon = ifelse(longitude > 180, (-1 * (360 - longitude)), longitude))
+```
+
+# Exploring the data
+
+* Plot the flight track
+
+```{r}
+  ggplot(data, aes(lon, latitude)) + geom_point()
+```
+
+* add map
+
+```{r}
+ 
+
+  map <- get_map(location = c(lon = mean(data$lon), lat = mean(data$latitude)), zoom = 3,
+                      maptype = "satellite", scale = 1)
+
+  ggmap(map) + geom_point(data = data, aes(lon, latitude, color = hcn_cit))
+
+```
+
