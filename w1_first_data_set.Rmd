@@ -40,13 +40,13 @@ You can use the RStudio menu (`tools` -> `check for package updates`) to update 
 
 # Source files
 
-Often we'll want to access code we've saved somewhere else. We can use the `source` function to include r scripts. For today's exercise you'll need to download a script called `r_functions`. Navigate to the course's [shared google drive folder](https://tinyurl.com/R-for-fire-data) and download the scripts folder. Make a copy of the scripts folder in your working directory. Then run the following line of code:
+Often we'll want to access code we've saved elsewhere. We can use the `source()` function to include r scripts. For today's exercise you'll need to download a script called `r_functions`. Navigate to the course's [shared google drive folder](https://tinyurl.com/R-for-fire-data) and download the scripts folder. Make a copy of the scripts folder in your working directory. Then run the following line of code:
 
 ```{r}
  source("scripts/r_functions.R")
 ```
 
-R will look for the script `r_functions.R` in the folder `scripts`. Check the console for an error messages.
+R will look for the script `r_functions.R` in the folder `scripts`. Check the console for any error messages.
 
 ---
 
@@ -61,7 +61,7 @@ We're going to look at some data from the [Arctas](https://www-air.larc.nasa.gov
 
 * Let's check out the help documentation for some of the functions used in the code segment below (`lapply`, `bind_rows`).
 
-* Try running the code. An `object` named `data` should appear in your working environment.
+* Try running the code. An `object` named `arctas_data` should appear in your working environment.
 
 ```{r}
   arctas_data <- lapply(list.files("../data/arctas",
@@ -127,7 +127,7 @@ Data frames are a common way to stored data in R. Each column has a name, each c
   no_flight_10 <- arctas_data$no[which(arctas_data$flight == 10)]
 ```
 
-* Try typing `arctas_data` into your console and then `enter`. What happens?
+* Try typing `arctas_data` into your console and then press `enter`. What happens?
 
 ---
 
