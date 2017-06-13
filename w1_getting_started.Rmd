@@ -16,7 +16,7 @@ div.blue pre{background-color:AliceBlue;}
 
 # Course Materials
 
-Course material will be made available via [GitHub](https://github.com/nickgood/r_for_fire_data). The classes will be largely example driven. We'll cover some areas in more detail than others, frequently returning to topics in more detail as we progress.
+Course material will be made available via [GitHub](https://github.com/nickgood/r_for_fire_data). The classes will be largely example driven. We'll cover some areas in more detail than others, frequently returning to topics as we progress.
 
 <div class = "blue">
 ```
