@@ -8,21 +8,16 @@ output:
     theme: yeti
 ---
 
-<style>
-div.blue pre{background-color:AliceBlue;}
-</style>
-
 ---
 
 # Course Materials
 
 Course material will be made available via [GitHub](https://github.com/nickgood/r_for_fire_data). The classes will be largely example driven. We'll cover some areas in more detail than others, frequently returning to topics as we progress.
 
-<div class = "blue">
+```{r}
+ # Navigate to the course Github page and view this document.
 ```
- * Navigate to the course Github page and view this document.
-```
-</div>
+
 
 ---
 
@@ -30,11 +25,9 @@ Course material will be made available via [GitHub](https://github.com/nickgood/
 
 R is available from [CRAN](https://cran.r-project.org). There are distributions for multiple platforms (Linux, OS X and Windows). CRAN (The Comprehensive R Archive Network) is a network of servers from which the lastest versions of base R, R packages, and R documentation can be downloaded. Choose a CRAN mirror close to your current location.
 
-<div class = "blue">
+```{r}
+ # Install the precompiled R distribution for your platform.
 ```
- * Install the precompiled R distribution for your platform.
-```
-</div>
 
 ---
 
@@ -42,11 +35,10 @@ R is available from [CRAN](https://cran.r-project.org). There are distributions 
 
 Install RStudio from [rstudio.com](https://www.rstudio.com/products/rstudio/download/). RStudio is your interface with R. Download the free version of *RStudio Desktop*.
 
-<div class = "blue">
+```{r}
+ # Install RStudio.
 ```
- * Install RStudio.
-```
-</div>
+
 ---
 
 # Navigating RStudio
@@ -63,13 +55,9 @@ The ***console*** pane is where you can pass commands to R.
 ![](images/pane_console.PNG)
 <br>
 
-Let's try out some commands.:
+Let's try out some commands. One at a time, type each of the following commands into the console and press return:
 
-<div class = "blue">
-
-```
-One at a time, type each of the following commands into the console and press return:
-
+```{r, eval = FALSE}
   seq(1, 10, 0.5)
 
   round(pi, 1)
@@ -80,12 +68,11 @@ One at a time, type each of the following commands into the console and press re
   
   plot(cars)
 
-Does R care if you use upper or lower case characters?
+# Does R care if you use upper or lower case characters?
 
-What does prefixing a command with the ? symbol do?
+# What does prefixing a command with the ? symbol do?
 
 ```
-</div>
 
 The ***environment*** pane allows you to view R objects et cetera in your working environment. Different object types are grouped together in the ***environment*** panel. There is also ***history*** tab in this panel, where you can view commands you have run.
 
@@ -101,13 +88,11 @@ The final panel contains the ***files***, ***plots***, ***packages***, ***help**
 
 Let's take a look at the different tabs:
 
-<div class = "blue">
-```
-Select the files, plots, packages, help, and viewer tabs in turn.
+```{r}
+# Select the files, plots, packages, help, and viewer tabs in turn.
 
-What do you see in each tab?
+# What do you see in each tab?
 ```
-</div>
 
 RStudio settings can be customized via the ***preferences*** menu item.
 
@@ -120,25 +105,24 @@ RStudio settings can be customized via the ***preferences*** menu item.
 
 The working directory is the folder that works in unless you tell R otherwise. The `getwd()` command returns your current working directory. The `setwd(...)` command allows you to set the working directory.
 
-<div class = "blue">
+
+```{r}
+ # Run the getwd() command in the console
+
+ # Where is your current working directory?
 ```
- Run the getwd() command in the console. Where is your current working directory?
-```
-</div>
 
 # RStudio projects
 
 When working with R you'll very soon want to create a way to organize your work. RStudio facilitates organizing your work using `projects`. Let's create our first RStudio project. Select `file` -> `new project` -> `new directory` -> `empty project`, select a directory and name for your project.
 
-<div class = "blue">
-```
- Run getwd() again. What does it return?
+```{r}
+ # Run getwd() again. What does it return?
  
- Run setwd(..) 
+ # Run setwd(..) 
  
- Set the working directory back to your project directory
+ # Set the working directory back to your project directory
 ```
-</div>
 
 # Saving your work
 
@@ -146,18 +130,16 @@ There are multiple ways to save your work in R/RStudio. There are basic R script
 
 Let's create a file to save our work in. We'll create an `R Notebook` file, a special type of file that can be used to document our work in an easy to read and reproducible format.
 
-<div class = "blue">
+```{r}
+ #1. Open a new R Notebook: file -> new file -> R Notebook
+ #2. Save the notebook file and rename it.
+ #3. Preview the file by pressing the preview button.
+ #4. Edit and resave the file (e.g. give it a new title e.g. "week one")
+ #5. Run the code chunk using the green arrow.
+ #6. Preview the file again.
+ #7. Remove the example text.
+ #8. You can use this file for the rest of today's class.
 ```
- 1. Open a new R Notebook: file -> new file -> R Notebook
- 2. Save the notebook file and rename it.
- 3. Preview the file by pressing the preview button.
- 4. Edit and resave the file (e.g. give it a new title e.g. "week one")
- 5. Run the code chunk using the green arrow.
- 6. Preview the file again.
- 7. Remove the example text.
- 8. You can use this file for the rest of today's class.
-```
-</div>
 
 ---
 
@@ -165,26 +147,25 @@ Let's create a file to save our work in. We'll create an `R Notebook` file, a sp
 
 R is [object oriented](http://adv-r.had.co.nz/OO-essentials.html#base-types). To create an object use the assignment operator `<-`. The `<-` operator is recommended over `=`, which also works (most of the time).
 
-<div class = "blue">
-```
-One at a time, type each of the following commands into the console and press return:
+* One at a time, type each of the following commands into the console and press return.
 
+* Take a look in your environment window, what do you see?
+
+```{r, eval = FALSE}
   my_dataframe <- data_frame(x = seq(1, 20, 1), y = rnorm(20))
   
   my_lm <- lm(y ~ x, my_dataframe)
 
-Take a look in your environment window, what do you see?
+
 ```
-</div>
 
 R objects have a class associated with them. Different methods (functions) can be applied to objects of different classes. You can use the `class()` function to determine an object's class.
 
-<div class = "blue">
-```
-Use the class() function to determine the class of each object in your working environment.
+* Use the `class()` function to determine the class of each object in your working environment.
 
-Run the following code one line at a time:
+* Run the following code one line at a time:
 
+```{r, eval = FALSE}
   summary(my_dataframe)
 
   plot(my_dataframe)
@@ -193,7 +174,6 @@ Run the following code one line at a time:
 
   plot(my_lm)
 ```
-</div>
 
 ---
 
@@ -232,15 +212,13 @@ To display text for a function type a `?` before the function
   ?help
 ```
 
-<div class = "blue">
-```
 View the help documentation  for the following functions:
+
+```{r, eval = FALSE}
   mean()
   lm()
   data_frame()
   sort()
-
 ```
-</div>
 
 ---
