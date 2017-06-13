@@ -34,6 +34,8 @@ Once a package is installed you need to tell R to make it available for use. We 
   library(dplyr)
 ```
 
+You can use the RStudio menu (`tools` -> `check for package updates`) to update to the lastest stable package releases.
+
 ---
 
 # Source files
