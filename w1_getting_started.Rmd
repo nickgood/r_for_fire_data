@@ -28,7 +28,7 @@ Course material will be made available via [GitHub](https://github.com/nickgood/
 
 # Installing R
 
-R is available from [CRAN](https://cran.r-project.org). There are distribution for multiple platforms (Linux, OS X and Windows). CRAN (The Comprehensive R Archive Network) is a network of servers from which the lastest versions of base R, R packages, and R documentation can be downloaded. Choose a CRAN mirror close to your current location.
+R is available from [CRAN](https://cran.r-project.org). There are distributions for multiple platforms (Linux, OS X and Windows). CRAN (The Comprehensive R Archive Network) is a network of servers from which the lastest versions of base R, R packages, and R documentation can be downloaded. Choose a CRAN mirror close to your current location.
 
 <div class = "blue">
 ```
@@ -58,25 +58,12 @@ The ***source*** pane allows you to open files for editing. RStudio have develop
 ![](images/pane_source.PNG)
 <br>
 
-Let's create a source file to save our work in. We'll create an `R Notebook` file, a special type of file that can be used to document our work in an easy to read a reproducible format.
-
-<div class = "blue">
-```
- 1. Open a new R Notebook: file -> new file -> R Notebook
- 2. Save the notebook file and rename it
- 3. Preview the file
- 4. Edit and resave the file (e.g. give it a new title "week one")
- 5. Run the code chunk using the green arrow
- 6. Preview the file again
-```
-</div>
-
 The ***console*** pane is where you can pass commands to R.
 
 ![](images/pane_console.PNG)
 <br>
 
-Let's try out some useful commands.:
+Let's try out some commands.:
 
 <div class = "blue">
 
@@ -139,6 +126,8 @@ The working directory is the folder that works in unless you tell R otherwise. T
 ```
 </div>
 
+# RStudio projects
+
 When working with R you'll very soon want to create a way to organize your work. RStudio facilitates organizing your work using `projects`. Let's create our first RStudio project. Select `file` -> `new project` -> `new directory` -> `empty project`, select a directory and name for your project.
 
 <div class = "blue">
@@ -147,7 +136,25 @@ When working with R you'll very soon want to create a way to organize your work.
  
  Run setwd(..) 
  
- Set the working directory to your project directory
+ Set the working directory back to your project directory
+```
+</div>
+
+# Saving your work
+
+There are multiple ways to save your work in R/RStudio. There are basic R scripts (`.R files`) and more elaborate markdown (`.Rmd`) documents for example
+
+Let's create a file to save our work in. We'll create an `R Notebook` file, a special type of file that can be used to document our work in an easy to read and reproducible format.
+
+<div class = "blue">
+```
+ 1. Open a new R Notebook: file -> new file -> R Notebook
+ 2. Save the notebook file and rename it.
+ 3. Preview the file by pressing the preview button.
+ 4. Edit and resave the file (e.g. give it a new title e.g. "week one")
+ 5. Run the code chunk using the green arrow.
+ 6. Preview the file again.
+ 7. Remove the example text. You can use this file to save and test your work for the rest of today's class.
 ```
 </div>
 
