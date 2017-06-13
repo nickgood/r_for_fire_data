@@ -1,9 +1,0 @@
----
-title: "Week 1 - Additional material"
-author: "Nicholas Good (n.good@colostate.edu)"
-output:
-  rmarkdown::html_document:
-    toc: true
-    toc_float: true
-    theme: yeti
----
