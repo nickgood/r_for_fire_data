@@ -48,6 +48,8 @@ Often we'll want to access code we've saved somewhere else. We can use the `sour
 
 R will look for the script `r_functions.R` in the folder `scripts`. Check the console for an error messages.
 
+---
+
 # Loading the data
 
 We're going to look at some data from the [Arctas](https://www-air.larc.nasa.gov/cgi-bin/arcstat-c) project. You'll need to download the [dataset](https://tinyurl.com/R-for-fire-data).
