@@ -154,7 +154,8 @@ Let's create a file to save our work in. We'll create an `R Notebook` file, a sp
  4. Edit and resave the file (e.g. give it a new title e.g. "week one")
  5. Run the code chunk using the green arrow.
  6. Preview the file again.
- 7. Remove the example text. You can use this file to save and test your work for the rest of today's class.
+ 7. Remove the example text.
+ 8. You can use this file for the rest of today's class.
 ```
 </div>
 
