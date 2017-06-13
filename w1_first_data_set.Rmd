@@ -20,20 +20,18 @@ In our first example we'll look at some data from the [ARCTAS campaign](https://
 
 # Libraries
 
-R comprises a *base* version that we installed earlier. However many of the tools we will use are part of additional *packages*.
+R comprises a *base* version that we installed earlier. However, many of the tools we will use are part of additional *packages*.
 
 To download a new package you can navigate to `tools` -> `install packages`. Or you can install via the command line:
 
 ```{r, eval = FALSE}
-  install.packages(c("dplyr", "ggplot2", "ggmap"))
+  install.packages("dplyr")
 ```
 
 Once a package is installed you need to tell R to make it available for use. We can do this with the `library()` function:
 
 ```{r}
   library(dplyr)
-  library(ggplot2)
-  library(ggmap)
 ```
 
 ---
@@ -125,13 +123,13 @@ Data frames are a common way to stored data in R. Each column has a name, each c
   no_flight_10 <- arctas_data$no[which(arctas_data$flight == 10)]
 ```
 
-* Try typing `arctas_data` into your console and then `enter`. What happends?
+* Try typing `arctas_data` into your console and then `enter`. What happens?
 
 ---
 
 # Summary statistics
 
-* Calculate the minumum and maximum `no` values. What do you notice?
+* Calculate the minimum and maximum `no` values. What do you notice?
 
 ```{r}
   no_min <- min(arctas_data$no)
@@ -146,7 +144,7 @@ Data frames are a common way to stored data in R. Each column has a name, each c
   plot(arctas_data$no)
 ```
 
-* Recalculate the minumum and maximum `no` values. What do you notice?
+* Recalculate the minimum and maximum `no` values. What do you notice?
 
 * Let's try this instead:
 
