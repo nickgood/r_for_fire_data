@@ -55,9 +55,9 @@ The ***console*** pane is where you can pass commands to R.
 ![](images/pane_console.PNG)
 <br>
 
-Let's try out some commands. One at a time, type each of the following commands into the console and press return:
-
 ```{r, eval = FALSE}
+# Let's try out some commands. One at a time, type each of the following commands into the console and press return:
+
   seq(1, 10, 0.5)
 
   round(pi, 1)
@@ -147,25 +147,25 @@ Let's create a file to save our work in. We'll create an `R Notebook` file, a sp
 
 R is [object oriented](http://adv-r.had.co.nz/OO-essentials.html#base-types). To create an object use the assignment operator `<-`. The `<-` operator is recommended over `=`, which also works (most of the time).
 
-* One at a time, type each of the following commands into the console and press return.
-
-* Take a look in your environment window, what do you see?
-
 ```{r, eval = FALSE}
+ # One at a time, type each of the following commands into the console and press return.
   my_dataframe <- data_frame(x = seq(1, 20, 1), y = rnorm(20))
-  
+
   my_lm <- lm(y ~ x, my_dataframe)
 
-
+ # Take a look in your environment window, what do you see?
 ```
 
 R objects have a class associated with them. Different methods (functions) can be applied to objects of different classes. You can use the `class()` function to determine an object's class.
 
-* Use the `class()` function to determine the class of each object in your working environment.
+```{r, eval = FALSE}
+  # Use the `class()` function to determine the class of each object in your working environment.
+```
 
-* Run the following code one line at a time:
 
 ```{r, eval = FALSE}
+ # Run the following code one line at a time:
+
   summary(my_dataframe)
 
   plot(my_dataframe)
