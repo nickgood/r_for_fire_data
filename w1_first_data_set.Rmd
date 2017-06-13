@@ -14,7 +14,7 @@ output:
 
 # ARCTAS
 
-In our first example we'll look at some data from the [ARCTAS campaign] (https://www.nasa.gov/mission_pages/arctas/smoke_plumes.html).
+In our first example we'll look at some data from the [ARCTAS campaign](https://www.nasa.gov/mission_pages/arctas/smoke_plumes.html).
 
 ---
 
