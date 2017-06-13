@@ -20,7 +20,7 @@ In our first example we'll look at some data from the [ARCTAS campaign](https://
 
 # Libraries
 
-R comprises a *base* version that we installed earlier. However, many of the tools we will use are part of additional *packages*.
+R comprises a *base* version that we installed earlier. However, many of the tools we will use are will be from add-on *packages*.
 
 To download a new package you can navigate to `tools` -> `install packages`. Or you can install via the command line:
 
