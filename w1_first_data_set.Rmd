@@ -11,7 +11,6 @@ output:
 ```{r global_options, include=FALSE}
   knitr::opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE, results = 'hide')
 ```
-opts_knit$set(warning = FALSE, message = FALSE)
 
 # ARCTAS
 
