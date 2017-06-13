@@ -14,9 +14,17 @@ In our first example we'll look at some data from the [ARCTAS campaign] (https:/
 
 # Libraries
 
-First we need to include some additional libraries in our session
+R comprises a *base* version that we installed earlier. However many of the tools we will use are part of additional *packages*.
 
-```{r}
+To download a new package you can navigate to `tools` -> `install packages`. Or you can install via the command line:
+
+```{r, eval = FALSE}
+  install.packages(c("dplyr", "ggplot2", "ggmap"))
+```
+
+Once a package is installed you need to tell R to make it available for use. We can do this with the `library()` function:
+
+```{r, warning = FALSE}
   library(dplyr)
   library(ggplot2)
   library(ggmap)
@@ -24,7 +32,7 @@ First we need to include some additional libraries in our session
 
 # Source files
 
-Often we'll want to access code we've saved somewhere else. We can use the `source` function to include r scripts 
+Often we'll want to access code we've saved somewhere else. We can use the `source` function to include r scripts
 
 ```{r}
  source("scripts/r_functions.R")
