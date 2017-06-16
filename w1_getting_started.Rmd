@@ -8,6 +8,9 @@ output:
     theme: yeti
 ---
 
+```{r global_options, include=FALSE}
+  knitr::opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE, results = 'hide')
+```
 ---
 
 # Course Materials
@@ -139,6 +142,26 @@ Let's create a file to save our work in. We'll create an `R Notebook` file, a sp
  #7. Remove the example text.
  #8. You can use this file for the rest of today's class.
 ```
+
+# Libraries
+
+R comprises a *base* version that we installed earlier. However, many of the tools we will use are will be from add-on *packages*.
+
+To download a new package you can navigate to `tools` -> `install packages`. Or you can install via the command line:
+
+```{r, eval = FALSE}
+  install.packages("tidyverse")
+```
+
+Once a package is installed you need to tell R to make it available for use. We can do this with the `library()` function:
+
+```{r}
+  library(tidyverse)
+```
+
+You can use the RStudio menu (`tools` -> `check for package updates`) to update to the lastest stable package releases.
+
+---
 
 ---
 
