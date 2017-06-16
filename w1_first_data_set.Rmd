@@ -20,21 +20,11 @@ In our first example we'll look at some data from the [ARCTAS campaign](https://
 
 # Libraries
 
-R comprises a *base* version that we installed earlier. However, many of the tools we will use are will be from add-on *packages*.
-
-To download a new package you can navigate to `tools` -> `install packages`. Or you can install via the command line:
-
-```{r, eval = FALSE}
-  install.packages("dplyr")
-```
-
-Once a package is installed you need to tell R to make it available for use. We can do this with the `library()` function:
+We'll be using the some of the `tidyverse` packages for this exercise. Include the `tidyverse` library in your notebook:
 
 ```{r}
-  library(dplyr)
+  library(tidyverse)
 ```
-
-You can use the RStudio menu (`tools` -> `check for package updates`) to update to the lastest stable package releases.
 
 ---
 
