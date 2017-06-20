@@ -96,13 +96,13 @@ Data frames are a common way to stored data in R. Each column has a name, each c
 * extract the first row
 
 ```{r}
-  first_row <- arctas_data[,1]
+  first_row <- arctas_data[1,]
 ```
 
 * extract the first column
 
 ```{r}
-  first_col <- arctas_data[1,]
+  first_col <- arctas_data[,1]
 ```
 
 * extract the `no` mixing ratio in the fourth column
