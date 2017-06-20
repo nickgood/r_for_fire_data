@@ -63,7 +63,7 @@ Try running these functions, is there anything you need to change?
 
 * Now try using the `readr` package
 
-* Do you need to install the `readr` library? Try runnig `"readr" %in% rownames(installed.packages())` in your console.
+* Do you need to install the `readr` library? Try running `"readr" %in% rownames(installed.packages())` in your console.
 
 * Do you need to update the `list.files` command?
 
@@ -117,7 +117,7 @@ Frequently you will want to load multiple files of the same format.
   files <- list.files("../data/w2_data", full.names = TRUE, pattern = "R14.ict$")
 ```
 
-* We can now use `lapply` to load each file nameds in the `files` object
+* We can now use `lapply` to load each file named in the `files` object
 
 * What class of object is created?
 
@@ -143,7 +143,7 @@ Frequently you will want to load multiple files of the same format.
 
 # Other programs
 
-If you would like to import data from other programming enviroments the are numerous R packages to facilitate this.
+If you would like to import data from other programming environments the are numerous R packages to facilitate this.
 
 ## Stats programs
 
@@ -159,7 +159,7 @@ The `R.matlab` package has a `readMat()` function for loading .mat files.
 
 ## As R objects
 
-You can R objects in a format R will recognizie or as text for example.
+You can R objects in a format R will recognize or as text for example.
 
 ```{r}
   save(responses, file = "../data/responses.RData")
