@@ -1,0 +1,187 @@
+---
+title: "Week 2 - Loading data"
+author: "Nicholas Good (n.good@colostate.edu)"
+output:
+  rmarkdown::html_document:
+    toc: true
+    toc_float: true
+    theme: yeti
+---
+
+```{r global_options, include=FALSE}
+  knitr::opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE, results = 'hide')
+```
+
+---
+
+# Set-up
+
+* Let's organize our R session:
+
+```{r}
+ # 1. create a new R notebook for this exercise
+ # 2. make sure you have this week's data folder downloaded from Google Drive
+ # 3. check you working directory matches the project directory
+```
+
+---
+
+# Text files
+
+R includes numerous `read.` functions that can be used to load common files formats. The package `readr` also includes functions to load common files formats.
+
+---
+
+# Useful functions
+
+Try running these functions, is there anything you need to change?
+
+```{r}
+  getwd()
+  
+  list.files(path = "../data/w2_data", full.names = TRUE)
+  
+  ?read.csv
+```
+
+---
+
+## Loading a .csv
+
+```{r}
+ # store the file path in an object
+  path <- "../data/w2_data/R for fire data analysis tutorials - Form Responses.csv"
+
+ # use the read.csv function to load the file
+ # what is each function argument doing?
+  responses <- read.csv(file = path, header = TRUE, sep = ",")
+
+ # explore the data you've just loaded using these functions
+  head(responses)
+  class(responses)
+```
+
+* Now try using the `readr` package
+
+* Do you need to install the `readr` library? Try runnig `"readr" %in% rownames(installed.packages())` in your console.
+
+* Do you need to update the `list.files` command?
+
+* After loading the files, try typing the name of the file object into your console, what do you see?
+
+* What class in the loaded object?
+
+```{r}
+  library(readr)
+
+  path  <- "../data/w2_data/R for fire data analysis tutorials - Form Responses.csv"
+
+  responses <- read_csv(file = path, col_names = TRUE)
+
+  class(responses)
+```
+
+---
+
+# Exercise 1
+
+Loading an ARCTAS file
+
+* Load the file `ARCTAS-mrg60-dc8_merge_20080409_R14.ict`.
+
+* Open the file in your favorite text editor.
+
+* What is the delimiter?
+
+* Which load function should you use?
+
+* Which line should you load first?
+
+* Which libraries do you need?
+
+---
+
+# Messy files
+
+You may come across files that are don't load nicely. For these you can use the `readr::read_lines` or the `base::readLines` function.
+
+---
+
+# Multiple files
+
+Frequently you will want to load multiple files of the same format.
+
+* We'll need to tell the function which files to load. You can use the `pattern =` argument to specify which files to include.
+
+```{r}
+  files <- list.files("../data/w2_data", full.names = TRUE, pattern = "R14.ict$")
+```
+
+* We can now use `lapply` to load each file nameds in the `files` object
+
+* What class of object is created?
+
+```{r}
+  library(readr)
+
+  multiple_files = lapply(files,
+                   read_csv, skip = 387, col_types = cols())
+```
+
+* You can use the `dplyr` function `bind_rows` to create a single `data_frame`:
+
+```{r}
+  library(readr)
+  library(dplyr)
+
+  multiple_files = lapply(files,
+                   read_csv, skip = 387, col_types = cols()) %>%
+                   bind_rows()
+```
+
+---
+
+# Other programs
+
+If you would like to import data from other programming enviroments the are numerous R packages to facilitate this.
+
+## Stats programs
+
+The `haven` library has functions such as `read_sas()`, `read_sav()` and read `read_dta()` for SAS, SPSS, and STATA file types for example.
+
+## Matlab
+
+The `R.matlab` package has a `readMat()` function for loading .mat files.
+
+---
+
+# Saving data
+
+## As R objects
+
+You can R objects in a format R will recognizie or as text for example.
+
+```{r}
+  save(responses, file = "../data/responses.RData")
+
+  saveRDS(responses, file = "../data/responses.RDS")
+```
+
+You can read R files like so:
+
+```{r}
+  load(file = "../data/responses.RData")
+
+  responses_reloaded <- readRDS(responses, file = "../data/responses.RDS")
+```
+
+## As plain text
+
+```{r}
+  write.csv(responses, file = "../data/saved_responses_utils.csv")
+
+  write_delim(responses, path = "../data/saved_responses_readr.csv", delim = "&")
+```
+
+---
+
