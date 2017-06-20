@@ -121,7 +121,7 @@ E.g. here we calculate the mean `fine_aerosol_sulfate` by `flight`.
 
 # Merging
 
-There are a number of `dplyr` functions for merging data. Two common tasks are combining rows of data with the same columns and adding columns to a dataset.
+There are a number of `dplyr` functions for merging data. Two common tasks are combining rows of data with the same columns and adding columns to a data set.
 
 * You can use the `bind_rows()` function to merge dataframes with identical column names:
 
@@ -129,7 +129,7 @@ There are a number of `dplyr` functions for merging data. Two common tasks are c
  f_data <- bind_rows(f_1, f_2)
 ```
 
-* You can use the `_join()` functions to merge datasets by a common column or columns:
+* You can use the `_join()` functions to merge data sets by a common column or columns:
 
 ```{r}
   notes <- data_frame(FLIGHT = c(4, 5), note = c("note_1", "note2"))
@@ -141,7 +141,7 @@ There are a number of `dplyr` functions for merging data. Two common tasks are c
 
 # Putting it all together
 
-You can use the `%>%` operator from the `magrittr` package to make your code more readible:
+You can use the `%>%` operator from the `magrittr` package to make your code more readable:
 
 ```{r}
  f_all <- bind_rows(f_1, f_2) %>%
@@ -158,7 +158,7 @@ There are also `%<>%`, `%$`, and `%T>%` operators in the `magrittr` package
 
 # Exercise 2
 
-1. Load the  `O3`, `NO`, `NO2`, and `NOY` data from the `flt20130603` dataset into separate objects.
+1. Load the  `O3`, `NO`, `NO2`, and `NOY` data from the `flt20130603` data set into separate objects.
 
 Hint: check the file types and starting rows.
 
