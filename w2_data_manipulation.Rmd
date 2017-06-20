@@ -1,0 +1,176 @@
+---
+title: "Week 2 - Dataframe manipulation"
+author: "Nicholas Good (n.good@colostate.edu)"
+output:
+  rmarkdown::html_document:
+    toc: true
+    toc_float: true
+    theme: yeti
+---
+
+```{r global_options, include=FALSE}
+  knitr::opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE, results = 'hide')
+```
+
+---
+
+# Getting started
+
+First we'll need the `dplyr`, `readr` and `tibble` packages from `tidyverse`:
+
+```{r}
+ library(tidyverse)
+```
+
+Second we'll load in some data:
+
+* What does the `[2]` suffix to the `files` object achieve?
+
+```{r}
+  files <- list.files("../data/w2_data", full.names = TRUE, pattern = "R14.ict$")
+
+  f_1 <- read_csv(files[1], col_types = cols(), skip = 387)
+  
+  f_2 <- read_csv(files[2], col_types = cols(), skip = 387)
+```
+
+---
+
+# Renaming
+
+We'll look at two ways to rename columns.
+
+## All the columns
+
+You can use the `colnames()` function to return a character vector of column names:
+
+```{r}
+  names_f1 <- colnames(f_1)
+```
+
+We can then use the `names()` functions to modify the column names of an object:
+
+```{r}
+  f_lower <- f_1
+
+  names(f_lower) <- tolower(colnames(f_lower))
+```
+
+## Individual columns
+
+The `rename` function can be used to rename columns:
+
+```{r}
+  f_1_renamed <- rename(f_lower, time_utc = utc,
+                                 julien_day = jday)
+```
+
+---
+
+# New columns
+
+The `mutate()` function creates a new column:
+
+```{r}
+  f_1_newcol <- mutate(f_lower, t_oc = temperature - 273.15)
+```
+
+---
+
+# Filtering
+
+The `filter()` function removes rows according to some condition:
+
+```{r}
+  f_1_filtered <- filter(f_lower, utc > 50000)
+```
+
+The `select()` function can be used to grab columns by name:
+
+```{r}
+  f_1_selected <- select(f_lower, utc, noy)
+```
+
+You can also the the `-` sign to drop columns:
+
+```{r}
+  f_1_selected <- select(f_lower, -utc, -noy)
+```
+
+---
+
+# Aggregating
+
+You can operate on groups of data by first grouping data using the `group_by()` function. Note: you can group `by` multiple variables.
+
+```{r}
+  f_1_flights <- group_by(f_lower, flight)
+```
+
+Once the data is grouped you can use a `window` function to performing a calculation and return the value for each group:
+
+E.g. here we calculate the mean `fine_aerosol_sulfate` by `flight`.
+
+```{r}
+  f_1_mean_sulfate <- summarize(f_1_flights,
+                                fine_aerosol_sulfate =
+                                mean(fine_aerosol_sulfate, na.rm = TRUE))
+```
+
+---
+
+# Merging
+
+There are a number of `dplyr` functions for merging data. Two common tasks are combining rows of data with the same columns and adding columns to a dataset.
+
+* You can use the `bind_rows()` function to merge dataframes with identical column names:
+
+```{r}
+ f_data <- bind_rows(f_1, f_2)
+```
+
+* You can use the `_join()` functions to merge datasets by a common column or columns:
+
+```{r}
+  notes <- data_frame(FLIGHT = c(4, 5), note = c("note_1", "note2"))
+
+  f_data_notes <- left_join(notes, f_data, by = "FLIGHT")
+```
+
+---
+
+# Putting it all together
+
+You can use the `%>%` operator from the `magrittr` package to make your code more readible:
+
+```{r}
+ f_all <- bind_rows(f_1, f_2) %>%
+          mutate_all(funs(na_if(., -999999999))) %>%
+          mutate_all(funs(na_if(., -888888888))) %>%
+          set_names(tolower(names(.))) %>%
+          group_by(flight) %>%
+          summarise_all(mean, na.rm = TRUE)
+```
+
+There are also `%<>%`, `%$`, and `%T>%` operators in the `magrittr` package
+
+---
+
+# Exercise 2
+
+1. Load the  `O3`, `NO`, `NO2`, and `NOY` data from the `flt20130603` dataset into separate objects.
+
+Hint: check the file types and starting rows.
+
+2. Use the `left_join` function to combine the data into one `data_frame`.
+
+Hint: which variable should you join by?
+
+3. Convert missing values to `NA`.
+
+Hint: use the `na_if()` function.
+
+4. Rename the columns
+
+---
+
