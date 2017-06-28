@@ -23,12 +23,12 @@ This week's slides and data are availble on the [shared google drive folder](htt
 This exercise uses the package `ggplot2`. The `ggplot2` package is part of the `tidyverse` collection of packages.
 
 ```{r packages}
- # install.packages(ggplot2)
- # install.packages(tidyverse)
+ # install.packages("ggplot2")
+ # install.packages("tidyverse")
  # uncomment the code above to install:
  # ggplot2 and/or all the tidyverse packages
  # library(ggplot2) # to include the ggplot library
- # install.packages(magrittr)
+ # install.packages("magrittr")
  # comment the code above to install: magrittr
   
   library(tidyverse) # include tidyverse packages
@@ -248,4 +248,6 @@ You can annotate you plots using `geom_text()`. Each *geom* can take a number of
 ```
 
 ---
+
+
 
