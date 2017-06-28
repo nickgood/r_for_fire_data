@@ -1,0 +1,247 @@
+---
+title: "Week 3 - Data Visualization"
+author: "Nicholas Good"
+output:
+  rmarkdown::html_document:
+    toc: true
+    toc_float: true
+    theme: yeti
+---
+
+```{r global_options, include=FALSE}
+  knitr::opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE, results = 'hide')
+```
+
+---
+
+# Packages
+
+This exercise uses the package `ggplot2`. The `ggplot2` package is part of the `tidyverse` collection of packages.
+
+```{r packages}
+ # install.packages(ggplot2)
+ # install.packages(tidyverse)
+ # uncomment the code above to install:
+ # ggplot2 and/or all the tidyverse packages
+ # library(ggplot2) # to include the ggplot library
+ # install.packages(magrittr)
+ # comment the code above to install: magrittr
+  
+  library(tidyverse) # include tidyverse packages
+  library(magrittr)
+```
+
+---
+
+# Exploring data graphically
+
+Plotting data is an important tool for exploratory data analysis. Many object types support a `plot()` method for quick visualization of results. The `plot()` function can also be used for custom plots, however it is fairly limited in terms of its scope. The `ggplot2` package provides a much more comprehensive and customizable set of tools for data visualization.
+
+---
+
+# ggplot2
+
+The [ggplot2](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf) package is built on an underlying [grammer of graphics](http://vita.had.co.nz/papers/layered-grammar.pdf), that describes how data is transformed into a visual statistical representation. Some of the core elements are:
+
+ * **data** - information that you will **map** to aesthetic attributes
+ 
+ * **layers** - the geometric (**geoms**) elements that make you use to visualize statistical data transformations
+ 
+ * **scales/coordinates** - determine how data is mapped
+ 
+ * **facets** - a process of splitting and visualizing subsets of data
+ 
+ * **themes** - methods to control details of a graphics appearance
+
+# This week's data
+
+Let's load the [arctas](https://drive.google.com/open?id=0B5Ag5T2bIuQzNUFJNHN3V0dYVjg) data set from the first week. Remember to tweak the *path* if needed.
+
+```{r load_data}
+ # create object containing a vector of file names:
+  files <- list.files("../data/arctas",
+                      full.names = TRUE,
+                      pattern = "R14.ict$")
+
+ # load files in the file list
+  data_arctas <- lapply(files,
+                 read_csv, skip = 387,
+                          col_types = cols()) %>%
+                 bind_rows()
+
+                 names(data_arctas) %<>% tolower
+
+ # clean the data
+  data_arctas[data_arctas == -999999999 | data_arctas == -888888888] <- NA
+
+ # grab the first flight
+  data_first_flight <- filter(data_arctas, flight == first(unique(flight)))
+```
+
+Check the data looks reasonable using the functions below. Is there anything else you would check?
+
+```{r check_data}
+  head(data_arctas, 2)
+
+  nrow(data_arctas)
+
+  colnames(data_arctas)
+
+  summary(data_arctas)
+
+  class(data_arctas)
+```
+
+---
+
+# Basics
+
+As a minimum, each `ggplot` graphic requires at least three elements:
+
+* data
+* aesthetic
+* layer (geom)
+
+```{r}
+  ggplot(data = data_first_flight, mapping = aes(x = utc, y = o3)) +
+  geom_point()
+```
+
+We can add additional *geoms* to a `ggplot` object, and modify them:
+
+```{r}
+  ggplot(data = data_first_flight, mapping = aes(x = utc, y = o3)) +
+  geom_point() +
+  geom_point(aes(y = so2), color = "green", shape = 1)
+```
+
+* note that unmodified arguments are inherited from the original `ggplot(...)` function.
+
+* are there any problems with this plot?
+
+# Formating data for ggplot
+
+The `ggplot` package often prefers data in a longer format. The `tidyr` package contains useful tools for converting to longer and wider formats:
+
+```{r}
+  library(dplyr)
+  library(tidyr)
+
+  long_data <- dplyr::select(data_first_flight, utc, o3, so2) %>%
+               tidyr::gather("var", "val", 2:3)
+
+  ggplot(long_data, aes(utc, val, color = var)) +
+  geom_point()
+```
+
+---
+
+# Plots as objects
+
+Plots in R are objects, therefore you can store can assign a plot to an object name for manipulation at a later time:
+
+```{r}
+  p <- ggplot(data = data_first_flight, mapping = aes(x = utc, y = o3)) +
+       geom_point()
+  p
+```
+
+---
+
+# Basic plots
+
+The `ggplot` package has numerous *geoms* for creating common plot types.
+
+* Use `geom_hist()` to create a histogram of the *temperature* variable for flight #10.
+
+* Use `geom_box()` to create a box plot of the *noy* variable with a box for each flight. You'll need to convert the x variable *flight* to a categorical *class* e.g. using the `as.factor()` function.
+
+---
+
+# Faceting
+
+You will often want to plot groups of data separately. The `facet_grid()` and `facet_wrap()` *geoms* enable you to do this:
+
+```{r, fig.width=12, fig.height=30}
+  p <- ggplot(data = data_arctas, mapping = aes(x = utc, y = o3)) +
+       geom_point() +
+       facet_grid(flight ~ .)
+  p
+```
+
+* Try the faceting by some different variables.
+
+* Apply the `scales = "free"` argument to `facet_grid()`.
+
+---
+
+# Ordering
+
+Ordering data in a plot can be very informative:
+
+```{r}
+  p_data <- select(data_arctas, flight, no) %>%
+            group_by(flight) %>%
+            summarise(mean_no = mean(no, na.rm = TRUE))
+
+  ggplot(p_data, aes(flight, mean_no)) +
+  geom_point()
+```
+
+```{r}
+  p_data <- select(data_arctas, flight, no) %>%
+            group_by(flight) %>%
+            summarise(mean_no = mean(no, na.rm = TRUE)) %>%
+            arrange(mean_no) %>%
+            mutate(rank = row_number())
+
+  ggplot(p_data, aes(rank, mean_no)) +
+  geom_point()
+```
+
+---
+
+# Lines
+
+You can fit curves to your data using `ggplot()` and `geom_smooth()`:
+
+```{r}
+  ggplot(p_data, aes(rank, mean_no)) +
+  geom_point() +
+  geom_smooth()
+```
+
+* try passing some different arguments to `geom_smooth()`
+
+---
+
+# Text
+
+You can annotate you plots using `geom_text()`. Each *geom* can take a number of additional arguments to alters its appearance.
+
+```{r}
+  p <- ggplot(p_data, aes(rank, mean_no)) +
+       geom_point() +
+       geom_smooth() +
+       geom_text(aes(label = flight), hjust = 0.5, vjust = -0.5)
+```
+
+---
+
+# Appearance
+
+* detailed plots appearance is controlled by the `theme()` function. Try changing the appearance of a plot using the `theme()` function, for example the axis font size and orientation. You can use the help or search online for examples.
+
+* you can apply general themes, which are included in base R or for example from the `ggthemes()` package. Install the `ggthemes()` package and try applying some different themes. Start by typing `theme_` into the console and scroll through the options.
+
+* the `ggplot()` package has a number of built in functions for modifying how graphics are displayed try some of the these functions (these often replicate arguments you can pass to the `theme()` function.
+
+```{r, eval = FALSE}
+ xlab()
+ ylab()
+ scale_y_log10()
+ ggtitle()
+```
+
+---
+
