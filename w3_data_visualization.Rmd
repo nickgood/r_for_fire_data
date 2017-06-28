@@ -107,7 +107,7 @@ As a minimum, each `ggplot` graphic requires at least three elements:
 * aesthetic
 * layer (geom)
 
-```{r}
+```{r basics}
   ggplot(data = data_first_flight,
                 mapping = aes(x = utc, y = o3)) +
   geom_point()
@@ -115,7 +115,7 @@ As a minimum, each `ggplot` graphic requires at least three elements:
 
 We can add additional *geoms* to a `ggplot` object, and modify them:
 
-```{r}
+```{r add_geoms}
   ggplot(data = data_first_flight,
          mapping = aes(x = utc, y = o3)) +
   geom_point() +
@@ -130,7 +130,7 @@ We can add additional *geoms* to a `ggplot` object, and modify them:
 
 The `ggplot` package often prefers data in a longer format. The `tidyr` package contains useful tools for converting to longer and wider formats:
 
-```{r}
+```{r, data_width}
   library(dplyr)
   library(tidyr)
 
@@ -147,7 +147,7 @@ The `ggplot` package often prefers data in a longer format. The `tidyr` package 
 
 Plots in R are objects, therefore you can store can assign a plot to an object name for manipulation at a later time:
 
-```{r}
+```{r, plot_objects}
   p <- ggplot(data = data_first_flight,
               mapping = aes(x = utc, y = o3)) +
        geom_point()
@@ -170,7 +170,7 @@ The `ggplot` package has numerous *geoms* for creating common plot types.
 
 You will often want to plot groups of data separately. The `facet_grid()` and `facet_wrap()` *geoms* enable you to do this:
 
-```{r, fig.width=12, fig.height=30}
+```{r facets, fig.width=12, fig.height=30}
   p <- ggplot(data = data_arctas, mapping = aes(x = utc, y = o3)) +
        geom_point() +
        facet_grid(flight ~ .)
@@ -186,7 +186,7 @@ You will often want to plot groups of data separately. The `facet_grid()` and `f
 
 Ordering data in a plot can be very informative:
 
-```{r}
+```{r ordering}
   p_data <- select(data_arctas, flight, no) %>%
             group_by(flight) %>%
             summarise(mean_no = mean(no, na.rm = TRUE))
@@ -195,7 +195,7 @@ Ordering data in a plot can be very informative:
        geom_point()
 ```
 
-```{r}
+```{r plot_ordered}
   p_data <- select(data_arctas, flight, no) %>%
             group_by(flight) %>%
             summarise(mean_no = mean(no, na.rm = TRUE)) %>%
@@ -212,7 +212,7 @@ Ordering data in a plot can be very informative:
 
 You can fit curves to your data using `ggplot()` and `geom_smooth()`:
 
-```{r}
+```{r add_lines}
   p <- ggplot(p_data, aes(rank, mean_no)) +
        geom_point() +
        geom_smooth()
@@ -226,7 +226,7 @@ You can fit curves to your data using `ggplot()` and `geom_smooth()`:
 
 You can annotate you plots using `geom_text()`. Each *geom* can take a number of additional arguments to alters its appearance.
 
-```{r}
+```{r add_text}
   p <- ggplot(p_data, 
               aes(rank, mean_no)) +
        geom_point() +
@@ -245,7 +245,7 @@ You can annotate you plots using `geom_text()`. Each *geom* can take a number of
 
 * the `ggplot()` package has a number of built in functions for modifying how graphics are displayed try some of the these functions (these often replicate arguments you can pass to the `theme()` function.
 
-```{r, eval = FALSE}
+```{r helper_functions, eval = FALSE}
  xlab()
  ylab()
  scale_y_log10()
@@ -258,7 +258,7 @@ You can annotate you plots using `geom_text()`. Each *geom* can take a number of
 
 Often graphics were you can read off the numbers are useful. The [plotly](https://plot.ly/r/) packages allows conversion of `ggplot` objects to interactive `plotly` objects
 
-```{r}
+```{r plotly}
  # install.packages("plotly")
  # include the plotly library
   library(plotly)
