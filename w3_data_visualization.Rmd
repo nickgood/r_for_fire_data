@@ -170,7 +170,6 @@ You will often want to plot groups of data separately. The `facet_grid()` and `f
   p <- ggplot(data = data_arctas, mapping = aes(x = utc, y = o3)) +
        geom_point() +
        facet_grid(flight ~ .)
-  p
 ```
 
 * Try the faceting by some different variables.
@@ -188,8 +187,8 @@ Ordering data in a plot can be very informative:
             group_by(flight) %>%
             summarise(mean_no = mean(no, na.rm = TRUE))
 
-  ggplot(p_data, aes(flight, mean_no)) +
-  geom_point()
+  p <- ggplot(p_data, aes(flight, mean_no)) +
+       geom_point()
 ```
 
 ```{r}
@@ -199,8 +198,8 @@ Ordering data in a plot can be very informative:
             arrange(mean_no) %>%
             mutate(rank = row_number())
 
-  ggplot(p_data, aes(rank, mean_no)) +
-  geom_point()
+  p <- ggplot(p_data, aes(rank, mean_no)) +
+       geom_point()
 ```
 
 ---
@@ -210,9 +209,9 @@ Ordering data in a plot can be very informative:
 You can fit curves to your data using `ggplot()` and `geom_smooth()`:
 
 ```{r}
-  ggplot(p_data, aes(rank, mean_no)) +
-  geom_point() +
-  geom_smooth()
+  p <- ggplot(p_data, aes(rank, mean_no)) +
+       geom_point() +
+       geom_smooth()
 ```
 
 * try passing some different arguments to `geom_smooth()`
@@ -228,7 +227,6 @@ You can annotate you plots using `geom_text()`. Each *geom* can take a number of
        geom_point() +
        geom_smooth() +
        geom_text(aes(label = flight), hjust = 0.5, vjust = -0.5)
-  p
 ```
 
 ---
