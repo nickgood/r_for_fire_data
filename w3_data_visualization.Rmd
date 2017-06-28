@@ -228,6 +228,7 @@ You can annotate you plots using `geom_text()`. Each *geom* can take a number of
        geom_point() +
        geom_smooth() +
        geom_text(aes(label = flight), hjust = 0.5, vjust = -0.5)
+  p
 ```
 
 ---
@@ -249,5 +250,25 @@ You can annotate you plots using `geom_text()`. Each *geom* can take a number of
 
 ---
 
+# Interactive graphics
+
+Often graphics were you can read off the numbers are useful. The [plotly](https://plot.ly/r/) packages allows conversion of `ggplot` objects to interactive `plotly` objects
+
+```{r}
+ # install.packages("plotly")
+ # include the plotly library
+  library(plotly)
+
+ # create a ggplot object
+  p <- ggplot(p_data, aes(rank, mean_no)) +
+       geom_point() +
+       geom_smooth()
+
+ # convert to a plotly object
+  p_plotly  <- ggplotly(p)
+
+ # display the plot
+  p_plotly
+```
 
 
