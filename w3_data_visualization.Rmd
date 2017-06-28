@@ -79,7 +79,8 @@ Let's load the [arctas](https://drive.google.com/open?id=0B5Ag5T2bIuQzNUFJNHN3V0
   data_arctas[data_arctas == -999999999 | data_arctas == -888888888] <- NA
 
  # grab the first flight
-  data_first_flight <- filter(data_arctas, flight == first(unique(flight)))
+  data_first_flight <- filter(data_arctas,
+                              flight == first(unique(flight)))
 ```
 
 Check the data looks reasonable using the functions below. Is there anything else you would check?
@@ -107,14 +108,16 @@ As a minimum, each `ggplot` graphic requires at least three elements:
 * layer (geom)
 
 ```{r}
-  ggplot(data = data_first_flight, mapping = aes(x = utc, y = o3)) +
+  ggplot(data = data_first_flight,
+                mapping = aes(x = utc, y = o3)) +
   geom_point()
 ```
 
 We can add additional *geoms* to a `ggplot` object, and modify them:
 
 ```{r}
-  ggplot(data = data_first_flight, mapping = aes(x = utc, y = o3)) +
+  ggplot(data = data_first_flight,
+         mapping = aes(x = utc, y = o3)) +
   geom_point() +
   geom_point(aes(y = so2), color = "green", shape = 1)
 ```
@@ -145,7 +148,8 @@ The `ggplot` package often prefers data in a longer format. The `tidyr` package 
 Plots in R are objects, therefore you can store can assign a plot to an object name for manipulation at a later time:
 
 ```{r}
-  p <- ggplot(data = data_first_flight, mapping = aes(x = utc, y = o3)) +
+  p <- ggplot(data = data_first_flight,
+              mapping = aes(x = utc, y = o3)) +
        geom_point()
   p
 ```
@@ -223,10 +227,12 @@ You can fit curves to your data using `ggplot()` and `geom_smooth()`:
 You can annotate you plots using `geom_text()`. Each *geom* can take a number of additional arguments to alters its appearance.
 
 ```{r}
-  p <- ggplot(p_data, aes(rank, mean_no)) +
+  p <- ggplot(p_data, 
+              aes(rank, mean_no)) +
        geom_point() +
        geom_smooth() +
-       geom_text(aes(label = flight), hjust = 0.5, vjust = -0.5)
+       geom_text(aes(label = flight),
+                 hjust = 0.5, vjust = -0.5)
 ```
 
 ---
@@ -258,7 +264,8 @@ Often graphics were you can read off the numbers are useful. The [plotly](https:
   library(plotly)
 
  # create a ggplot object
-  p <- ggplot(p_data, aes(rank, mean_no)) +
+  p <- ggplot(p_data,
+              aes(rank, mean_no)) +
        geom_point() +
        geom_smooth()
 
