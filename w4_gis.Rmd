@@ -1,0 +1,267 @@
+---
+title: "Week 4 - GIS"
+author: "Nicholas Good"
+output:
+  rmarkdown::html_document:
+    toc: true
+    toc_float: true
+    theme: yeti
+---
+
+```{r global_options, include=FALSE}
+  knitr::opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE, results = 'hide')
+```
+
+---
+
+# Reading spatial data
+
+Like other data types there will very likely be data loaders for the data you want to analyse
+
+E.g. for OGR data:
+
+```{r}
+ library(rgdal)
+ # rgdal::readOGR(dsn = ..., layer = ...,)
+``` 
+
+* What spatial data types do you use?
+
+* Can you find packages / methods for your data types?
+
+---
+
+# Spatial objects
+
+R spatial objects often use a `slot` structure. The `@` symbol is used to differentiate different `slot` types e.g. `@polygons` or `@lines`. The `$` symbol is used to select columns by name.
+
+---
+
+# Manipulating spatial data
+
+The defining and manipulating the coordinate system you are using is vital to ensure your data is projected properly and data from different sources is matched up. There are some useful functions for working with data projections:
+
+```{r}
+  library(rgdal)
+
+ # the make_EPSG function returns a dataframe
+  EPSG <- make_EPSG()
+  EPSG[grepl("WGS 84$", EPSG$note), ]
+
+ # you can then transform to a given system using:
+ # spTransform()
+```
+
+---
+
+# GIS packages
+
+There are many packages for spatial data analysis. There is a [CRAN page](https://cran.r-project.org/web/views/Spatial.html) with an overview.
+
+---
+
+## leaflet
+
+---
+
+The [leaflet](https://cran.r-project.org/web/packages/leafletR/index.html) package displays spatial data on interactive maps using the JavaScript based leaflet library.
+
+In the example below base reflectivity data is mapped onto a `leaflet ma
+
+```{r}
+library(leaflet)
+library(tidyverse)
+
+leaflet() %>% addTiles() %>% setView(-93.65, 42.0285, zoom = 4) %>%
+  addWMSTiles(
+    "http://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi",
+    layers = "nexrad-n0r-900913",
+    options = WMSTileOptions(format = "image/png", transparent = TRUE),
+    attribution = "Weather data © 2012 IEM Nexrad"
+  )
+```
+
+* WMS tiles are available for fire data can you plot these?
+
+---
+
+## ggmap
+
+The [ggmap package](https://cran.r-project.org/web/packages/ggmap/index.html) provides functions to visualize spatial data and models on top of static maps from various online sources and includes functions for geolocation and routing.
+
+* Let's load some data:
+
+```{r}
+  files <- list.files("../data/w4_data",
+                      full.names = TRUE)
+
+  data_commuter <- lapply(files,
+                   read.table, header = TRUE, sep = "\t") %>%
+                   bind_rows() %>%
+                   filter(!is.na(Lon_w))
+```
+
+* Plot a map of Fort Collins
+
+```{r}
+  library(ggmap)
+
+  map_fc <- qmap('fort collins', zoom = 13) 
+
+  map_fc
+```
+
+* Try plotting a map of your home town.
+
+* Now you can add data to your map using `ggplot2` style methods:
+
+```{r}
+  map_fc <- map_fc +
+            geom_path(aes(x = Lon_w, y = Lat_w, colour = bc_w),
+                      data = data_commuter) +
+             scale_colour_gradientn(colours = terrain.colors(10),
+                                    trans = "log")
+  map_fc
+```
+
+* Convert the scale to a nicer range.
+
+* Find a color scale that shows up against the map more clearly.
+
+* Change the appearance of the map
+
+---
+
+## maptools
+
+The [maptools package](https://cran.r-project.org/web/packages/maptools/index.html) provides a set of tools for manipulating and reading geographic data (including [ESRI](https://www.esri.com/library/whitepapers/pdfs/shapefile.pdf) shape files).
+
+* Check out the code below
+
+* Where does the data come from?
+
+* Determine the object classes
+
+```{r}
+  library(maptools)
+  fname = system.file("shapes/sids.shp", package=  "maptools")
+  p4s = CRS("+proj=longlat +datum=NAD27")
+  nc = readShapePoly(fname, proj4string=p4s)
+  plot(nc, axes = TRUE, col=grey(1-nc$SID79/57))
+```
+
+---
+
+## RgoogleMaps
+
+The [RgoogleMaps package](https://cran.r-project.org/web/packages/RgoogleMaps/index.html) provides an interface with Google maps. You used this package (as a dependency) when you used the `ggmaps` package.
+
+---
+
+## rgdal
+
+The [rgdal package](https://cran.r-project.org/web/packages/rgdal/index.html) provides an interface to the [gdal](http://www.gdal.org) Geo-spatial Data Abstraction Library.
+
+---
+
+## rgeos
+
+The [rgeos package](https://cran.r-project.org/web/packages/rgeos/index.html) provides an interface to topology functions for `sp` objects using [GEOS](http://trac.osgeo.org/geos/).
+
+---
+
+## sp
+
+The [sp](https://cran.r-project.org/web/packages/sp/index.html) package provides a set of classes and methods for spatial analysis. A number of the packages described here us `sp` methods and object classes.
+
+```{r}
+  library(sp)
+  data(meuse)
+  coords <- SpatialPoints(meuse[c("x", "y")])
+  meuse <-  SpatialPointsDataFrame(coords, meuse)
+  plot(meuse, pch = 1, cex = 0.05 * sqrt(meuse$zinc))
+```
+
+---
+
+## tmap
+
+The [tmap package](https://cran.r-project.org/web/packages/tmap/index.html) offers a flexible, layer-based, and easy to use approach to create spatial maps very similar to `ggplot2`:
+
+This is an example of `tmap` from the [tmap in a nutshell vignette](https://cran.r-project.org/web/packages/tmap/vignettes/tmap-nutshell.html).
+
+Work through the example
+
+* Customize the appearance of each plot
+* Try changing the variables
+
+First include the library and source data:
+
+```{r}
+  library(tmap)
+  data(Europe)
+```
+
+Use the `qtm()1 function to plot a basic map
+
+* pass some additional arguments to the function
+
+```{r}
+  qtm(Europe)
+```
+
+* color each country by a variable
+* what is the `Well-Being Index`
+* change the plot style
+
+```{r}
+  tm_shape(Europe) +
+  tm_polygons("well_being", textNA="Non-European countries", title="Well-Being Index") +
+  tm_text("iso_a3", size="AREA", root=5) + 
+  tm_format_Europe() +
+  tm_style_grey()
+```
+
+* load some additional data
+* determine the class of each data object
+
+```{r}
+  data(land, rivers, metro)
+```
+
+* build up the plot one layer at a time
+* what does each `geom` add?
+* customize the plot
+
+```{r}
+  tm_shape(land) +
+    tm_raster("trees", breaks=seq(0, 100, by=20), legend.show = FALSE) +
+    tm_shape(Europe, is.master = TRUE) +
+    tm_borders() +
+    tm_shape(rivers) +
+    tm_lines(lwd="strokelwd", scale=5, legend.lwd.show = FALSE) +
+    tm_shape(metro) +
+    tm_bubbles("pop2010", "red", border.col = "black", border.lwd=1, 
+        size.lim = c(0, 11e6), sizes.legend = c(1e6, 2e6, 4e6, 6e6, 10e6), 
+        title.size="Metropolitan Population") +
+    tm_text("name", size="pop2010", scale=1, root=4, size.lowerbound = .6, 
+        bg.color="white", bg.alpha = .75, 
+        auto.placement = 1, legend.size.show = FALSE) + 
+    tm_format_Europe() +
+    tm_style_natural()
+```
+
+* you can facet a `tmap` object just like a `ggplot2` object:
+* add some new variables and facet by them as well
+
+```{r}
+  tm_shape(Europe) +
+    tm_polygons(c("HPI", "gdp_cap_est"), 
+    style=c("pretty", "kmeans"),
+    palette=list("RdYlGn", "Purples"),
+    auto.palette.mapping=FALSE,
+    title=c("Happy Planet Index", "GDP per capita")) +
+  tm_format_Europe() +
+  tm_style_grey()
+```
+
