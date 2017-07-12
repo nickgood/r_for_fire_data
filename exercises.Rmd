@@ -43,14 +43,14 @@ The `install.packages("tidyverse")` command will install the core *tidyverse* pa
   install.packages("tidyverse")
 ```
 
-Some additional tidyverse packages we'll use are `magrittr` that adds operators to make code more readible and `lubridate` for date-time manipulation.
+Some additional tidyverse packages we'll use are `magrittr` that adds operators to make code more readable and `lubridate` for date-time manipulation.
 
 ```{r, eval=FALSE}
   install.packages("magrittr")
   install.packages("lubridate")
 ```
 
-The `tidyverse` includes the powerfull `ggplot2` library. For spatial analysis we'll include install the `ggmaps` and `plotly` packages. We'll also install the `ggthemes` package.
+The `tidyverse` includes the powerful `ggplot2` library. For spatial analysis we'll include install the `ggmaps` and `plotly` packages. We'll also install the `ggthemes` package.
 
 ```{r, eval=FALSE}
   install.packages("ggmaps")
@@ -104,7 +104,7 @@ You'll use this file to document your code in the next steps.
 
 ## Code chunks
 
-You can add a *chunk* of code to your *markdown* document uisng the *insert button*. 
+You can add a *chunk* of code to your *markdown* document using the *insert button*. 
 
 * Add several carriage returns below your title and press `insert -> R`.
 
@@ -138,9 +138,9 @@ You can add a *chunk* of code to your *markdown* document uisng the *insert butt
 
 ## Inline code
 
-You can write code that is evaluated inline with your text using `r sourcecode`. For example we can count the number flights in the dataset using `r sourcecode2`. So that we print: ***There are `r length(unique(arctas_data$flight))` flights in the dataset***.
+You can write code that is evaluated inline with your text using `r sourcecode`. For example we can count the number flights in the data set using `r sourcecode2`. So that we print: ***There are `r length(unique(arctas_data$flight))` flights in the dataset***.
 
-* Add a sentence to your markdown document that includes the number of flights in the dataset.
+* Add a sentence to your markdown document that includes the number of flights in the data set.
 
 ---
 
@@ -189,7 +189,7 @@ You can include core **tidyverse** packages using:
   library(magrittr)
 ```
 
-Or you can include them explicitely:
+Or you can include them explicitly:
 
 ```{r}
   library(dplyr)
@@ -205,7 +205,7 @@ Or you can include them explicitely:
 
 * You can use the `glimpse()` function to print a condensed summary of your data.
 
-* Data of class `tbl` display in a convient manner when the object is passed to the console
+* Data of class `tbl` display in a convenient manner when the object is passed to the console
 
 ```
  * Use the function class(arctas_data) to dertermine the class of the arctas_data object
@@ -219,7 +219,7 @@ Or you can include them explicitely:
 
 ## Reshape data
 
-Inevitably you will encounter data in incinvient layouts. The `tidyr` package contains tools for reshaping your data.
+Inevitably you will encounter data in inconvenient layouts. The `tidyr` package contains tools for reshaping your data.
 
 * the `gather()` function converts data to a longer format
 
@@ -294,7 +294,7 @@ For example:
 
 ## Combine data
 
-Often datasets need to be combined. The `dplyr` package contains various functions function types for combining data.
+Often data sets need to be combined. The `dplyr` package contains various functions function types for combining data.
 
 * Perhaps the most simple case is adding rows or columns to a data set. You can use `bind_rows()` to add new rows and `bind_cols()` to add columns.
 
@@ -349,13 +349,13 @@ The `mutate` functions in the `dplyr` can be used to create or modify columns in
 
 ## Grouping and summarizing data
 
-The `group_by()` and `summarize` functions are useful for data reduction. Often you'll want to calculate statisitics by groups within your data
+The `group_by()` and `summarize` functions are useful for data reduction. Often you'll want to calculate statistics by groups within your data
 
-* The `group_by()` function groups data by one or more variables. The data will look the same, but the results of subcequent operations on the data will be applied by groups.
+* The `group_by()` function groups data by one or more variables. The data will look the same, but the results of subsequent operations on the data will be applied by groups.
 
-* We can use `summarize()` to calculate statisitics by group for a given column (variable)
+* We can use `summarize()` to calculate statistics by group for a given column (variable)
 
-* We can use `summarize_all()` to calculate the statisitic for all the columns in a data frame.
+* We can use `summarize_all()` to calculate the statistic for all the columns in a data frame.
 
 * The data can be ungrouped using the `ungroup()` function.
 
@@ -506,7 +506,7 @@ The `ggmap` package builds on `ggplot` to map spatial data.
 ```
 
 ```
-  * calculate the require zoom
+  * calculate the required zoom
 ```
 
 ```{r}
