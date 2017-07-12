@@ -1,0 +1,32 @@
+---
+title: "NACAR ACOM/ACCORD Workshop - R"
+author: "Nicholas Good (n.good@colostate.edu)"
+output:
+  rmarkdown::html_document:
+   toc: true
+   toc_float: true
+   theme: yeti
+---
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE, results = 'hide')
+```
+---
+
+# Getting started
+
+If you'd like to run the in class examples (*recommended*) you'll need to bring a laptop computer with the following software pre-installed. Please contact me directly if you have any questions.
+
+---
+
+# Installing R
+
+R is available from [CRAN](https://cran.r-project.org). There are distributions for multiple platforms (Linux, OS X and Windows). CRAN (The Comprehensive R Archive Network) is a network of servers from which the latest versions of base R, R packages, and R documentation can be downloaded. Choose a CRAN mirror close to your current location. Install the pre-compiled R distribution for your platform.
+
+---
+
+# Installing RStudio
+
+Install RStudio from [rstudio.com](https://www.rstudio.com/products/rstudio/download/). RStudio is your interface with R. Download the free version of *RStudio Desktop* (the left-most download button).
+
+---
