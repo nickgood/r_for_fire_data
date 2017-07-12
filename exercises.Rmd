@@ -360,7 +360,7 @@ The `group_by()` and `summarize` functions are useful for data reduction. Often 
 * The data can be ungrouped using the `ungroup()` function.
 
 ```
- * Group the data by flight and caluculate the mean and standard deviation of the ozone mixing ratio
+ * Group the data by flight and calculate the mean and standard deviation of the ozone mixing ratio
 ```
 
 ```{r}
