@@ -1,0 +1,540 @@
+---
+title: "ACOM - ACCORD Fire Workshop 2017"
+author: "Nicholas Good - n.good@colostate.edu"
+output:
+  rmarkdown::html_document:
+    toc: true
+    toc_float: true
+    theme: yeti
+---
+
+```{r global_options, include=FALSE}
+  knitr::opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE, results = 'hide')
+```
+
+---
+
+# Getting started
+
+## R projects
+
+You can create an *R Studio* project to organize your work. An **R Studio** project has its own working directory, workspace, history, and source files.
+
+* To create am **R Studio** project navigate to: `File -> New Project -> Create Project` (giving the new folder a name via the dialog).
+
+* Select either `New directory -> Empty Project` or `Existing Directory -> Create Project` (selecting an existing folder via the dialog)
+
+## R packages
+
+The base functionality of R is expanded upon by installing additional packages. In this section we'll install all the packages we're going to use today. You can install packages using the `install.packages()` function or via the **R Studio** user interface (`tools -> install packages`).
+
+* The [rmarkdown](http://rmarkdown.rstudio.com) package allows you to combine: code, its output and text into a single document in **R Studio** (like the one you are reading now). **R Markdown** supports R and other languages (e.g. Python and SQL). You can output in numerous formats such as *html*, *word* and *pdf*. We'll be outputting to **html**.
+
+```{r, eval=FALSE}
+  install.packages("rmarkdown")
+  install.packages("knitr")
+```
+
+* The [tidyverse](http://tidyverse.org) is a collection of [data science](http://r4ds.had.co.nz) focused packages underpinned by common (and evolving) approaches to data manipulation.
+
+The `install.packages("tidyverse")` command will install the core *tidyverse* packages
+
+```{r, eval=FALSE}
+  install.packages("tidyverse")
+```
+
+Some additional tidyverse packages we'll use are `magrittr` that adds operators to make code more readible and `lubridate` for date-time manipulation.
+
+```{r, eval=FALSE}
+  install.packages("magrittr")
+  install.packages("lubridate")
+```
+
+The `tidyverse` includes the powerfull `ggplot2` library. For spatial analysis we'll include install the `ggmaps` and `plotly` packages. We'll also install the `ggthemes` package.
+
+```{r, eval=FALSE}
+  install.packages("ggmaps")
+  install.packages("plotly")
+  install.packages("ggthemes")
+```
+
+---
+
+## Data
+
+We're going to look at some data from the [Arctas](https://www-air.larc.nasa.gov/cgi-bin/arcstat-c) project. You'll need to download the [dataset](https://tinyurl.com/R-for-fire-data). Navigate to `data -> arctas` download the data and save it to a folder **inside your project folder** `project folder/arctas/`.
+
+## Source file
+
+To speed things up we'll use some code I've already written. You'll need to download the [scripts folder](https://tinyurl.com/R-for-fire-data). Download the folder and save it **in your project folder**.
+
+---
+
+# R Markdown
+
+## Resources
+
+* R Studio's [r markdown website](http://rmarkdown.rstudio.com/lesson-1.html)
+
+* The [r markdown cheatsheet](https://www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf)
+
+* The [r markdown reference](https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf)
+
+---
+
+## Creating a markdown document
+
+* Navigate to `File -> New File -> R Markdown -> ok` making sure the `document` and `html` options are selected. You'll also want to give your project a name.
+
+* Save your **R markdown** file in your project file (`File Save`)
+
+* Press the **Knit** button, what happens?
+
+* Take a moment to relate the text in your markdown document to the output
+
+* Remove all the code from the **R Markdown** heading down
+
+* Use the `#` symbol to create a new section header **Load Data**
+
+* Press the **Knit** button again.
+
+You'll use this file to document your code in the next steps.
+
+---
+
+## Code chunks
+
+You can add a *chunk* of code to your *markdown* document uisng the *insert button*. 
+
+* Add several carriage returns below your title and press `insert -> R`.
+
+* Copy the code below into the body of the *chunk*.
+
+* Use green arrow to run the code
+
+```{r, cache=TRUE}
+  library(tidyverse)
+  library(magrittr)
+
+  source("scripts/r_functions.R")
+
+  arctas_data <- lapply(list.files("../data/arctas",
+                        pattern = "_R14.ict$",
+                        full.names = TRUE),
+                        read_ict_file) %>%
+                 bind_rows() %>%
+                 mutate_all(funs(na_if(., -999999999))) %>%
+                 mutate_all(funs(na_if(., -888888888)))
+```
+
+* Take a look at your **Environment** tab, what do you see?
+
+---
+
+```{r, include=FALSE}
+ sourcecode <- "\\`r code here\\`"
+ sourcecode2 <- "\\`r length(unique(arctas_data$flight))\\`"
+```
+
+## Inline code
+
+You can write code that is evaluated inline with your text using `r sourcecode`. For example we can count the number flights in the dataset using `r sourcecode2`. So that we print: ***There are `r length(unique(arctas_data$flight))` flights in the dataset***.
+
+* Add a sentence to your markdown document that includes the number of flights in the dataset.
+
+---
+
+## Appearance
+
+The appearance of your **R Markdown** document can be formatted.
+
+```
+e.g. surround txt with:
+ * to make italic 
+ ** to make bold
+ $ to add latex style equations
+ [text](url) to add a web link to your markdown document
+```
+
+* add some bold and italic text to your markdown document
+* add a link to the class github page
+
+---
+
+## Tables
+
+There are multiple packages for adding tables to *R Markdown* documents for example *knitr*.
+
+* add the code chunk to below to your document.
+
+```{r}
+  library(knitr)
+  kable(arctas_data[1:5,1:4], caption = "Table caption")
+```
+
+---
+
+# Data manipulation
+
+---
+
+## Packages
+
+We'll use some of the **tidyverse** packages to manipulate our data:
+
+You can include core **tidyverse** packages using:
+
+```{r}
+  library(tidyverse)
+  library(magrittr)
+```
+
+Or you can include them explicitely:
+
+```{r}
+  library(dplyr)
+  library(tidyr)
+  library(purrr)
+```
+
+---
+
+## Viewing data
+
+* You can view data in **R Studio** using the `View()` function.
+
+* You can use the `glimpse()` function to print a condensed summary of your data.
+
+* Data of class `tbl` display in a convient manner when the object is passed to the console
+
+```
+ * Use the function class(arctas_data) to dertermine the class of the arctas_data object
+
+ * Use View(arctas_data) to display the data in R Studio
+
+ * Use glimpse(arctas_data) to look at your data in the console
+```
+
+---
+
+## Reshape data
+
+Inevitably you will encounter data in incinvient layouts. The `tidyr` package contains tools for reshaping your data.
+
+* the `gather()` function converts data to a longer format
+
+```
+ * Add the code chunk below to your markdown
+```
+
+```{r}
+  data_longer <- arctas_data %>%
+                 select(flight, utc, no, noy, o3, no2_ncar, no2_ucb) %>%
+                 gather("var", "val", 3:7)
+```
+
+```
+ * What is the %>% doing? Trying typing ?"%>%" into the console.
+
+ * Use the head() function to look at the first 5 lines of the data object
+```
+
+* the `spread()` function converts data to a wider format
+
+```
+ * Add the code chunk below to your markdown
+```
+
+```{r}
+  data_wider <- data_longer %>%
+                spread(var, val)
+```
+
+---
+
+## Select data
+
+Often you'll want to select a subset of your data. If your data is in a table you'll likely want to select by rows or columns. The `dplyr` package contains the tools you'll need to do this:
+
+* the filter function allows you to select rows based on logical criteria for the values they contain
+
+For example we can filter by column values:
+
+```{r}
+  data_filtered <- arctas_data %>%
+                   filter(!is.na(no)) %>%
+                   filter(flight == 4) %>%
+                   filter(no > quantile(no, 0.05), no < quantile(no, 0.95))
+```
+
+```
+  * what occurs at each filter step?
+```
+
+The `|` character is the logical `OR` operator e.g. `a == b | a == c`.
+
+```
+  Use the OR operator to select flight numbers 7, 11 and 21 from the dataset
+```
+
+* the select function allows you to select based on properties of the column names
+
+For example:
+
+```{r}
+  data_select <- arctas_data %>%
+                 select(flight, utc, no, noy, o3, no2_ncar, no2_ucb)
+```
+
+```
+ * Try selecting a different set of columns
+```
+
+---
+
+## Combine data
+
+Often datasets need to be combined. The `dplyr` package contains various functions function types for combining data.
+
+* Perhaps the most simple case is adding rows or columns to a data set. You can use `bind_rows()` to add new rows and `bind_cols()` to add columns.
+
+For example to combine data with the same column names:
+
+```{r}
+  flight_3  <- arctas_data %>%
+               filter(flight == 3)
+
+  flight_4 <-  arctas_data %>%
+               filter(flight == 4)
+
+  flight_3_4 <- bind_rows(flight_3, flight_4)
+```
+
+For example to combine data with the same number of rows:
+
+```{r}
+  data_n <- arctas_data %>%
+            select(starts_with("n"))
+
+  data_a <- arctas_data %>%
+            select(starts_with("a"))
+  
+  data_n_a <- bind_cols(data_n, data_a)
+```
+
+* To join data by a common variable or variables use an `_join` function.
+
+For example some notes pertaining to given flights
+
+```{r}
+  notes <- data_frame(flight = unique(arctas_data$flight)) %>%
+           mutate(note = sample(letters, 22))
+
+  data_with_note <- left_join(arctas_data, notes, by = "flight")
+```
+
+---
+
+## New variables
+
+The `mutate` functions in the `dplyr` can be used to create or modify columns in a data frame.
+
+* The `mutate()` function can create a new variable like so:
+
+* The `mutate_all()` function can be used to operate on all columns in a data frame.
+
+* The `mutate_if()` function can be used to operate on columns that meet certain criteria.
+
+---
+
+## Grouping and summarizing data
+
+The `group_by()` and `summarize` functions are useful for data reduction. Often you'll want to calculate statisitics by groups within your data
+
+* The `group_by()` function groups data by one or more variables. The data will look the same, but the results of subcequent operations on the data will be applied by groups.
+
+* We can use `summarize()` to calculate statisitics by group for a given column (variable)
+
+* We can use `summarize_all()` to calculate the statisitic for all the columns in a data frame.
+
+* The data can be ungrouped using the `ungroup()` function.
+
+```
+ * Group the data by flight and caluculate the mean and standard deviation of the ozone mixing ratio
+```
+
+```{r}
+  data_summary_o3 <- arctas_data %>%
+                  group_by(flight) %>%
+                  summarise(mean_o3 = mean(o3, na.rm = TRUE),
+                            sd_o3 = sd(o3, na.rm = TRUE))
+```
+
+```
+ * You can operate on all the columns
+```
+```{r}
+  data_summary_all <- arctas_data %>%
+                  group_by(flight) %>%
+                  summarise_all(funs(mean_val = mean), na.rm = TRUE)
+```
+
+---
+
+# Data visualization
+
+We'll look at three related packages for visualizing data. The `ggplot2` package can be used to produce customized plots. The `ggmap` package extends `ggplot` for use with spatial data. The `plotly` package can be used to create interactive graphics.
+
+* include the data visualization libraries in your markdown document:
+
+```{r}
+  library(ggplot2)
+  library(ggmap)
+  library(plotly)
+  library(tidyverse)
+  library(ggthemes)
+```
+
+---
+
+## ggplot2
+
+As a minimum, each `ggplot` graphic requires at least three elements:
+
+* data
+* aesthetic
+* layer (geom)
+
+Let's start with a time series plot.
+
+```{r basics, eval = FALSE}
+  ggplot(data = filter(arctas_data,
+                       flight == 10,
+                       !is.na(o3)),
+                mapping = aes(x = utc, y = o3)) +
+  geom_point()
+```
+
+Let's plot multiple pollutants
+
+* First convert the data to long format
+
+```{r}
+  data_plot <- arctas_data %>% 
+               filter(flight == 10,
+                      !is.na(o3)) %>%
+               select(flight, utc, o3, no, no2_ncar, no3) %>%
+               gather("var", "val", 3:6)
+```
+
+* Now we can plot the data
+
+```{r, eval = FALSE}
+  ggplot(data_plot, aes(utc, val, color = var)) +
+  geom_point() +
+  scale_y_log10()
+```
+
+* All can control detailed aspects of you graphic's appearance using the `theme()` function. A quick way to change appearance is to use a theme function:
+
+```
+  * try applying the following themes to your plot:
+```
+
+```{r, eval = FALSE}
+  + theme_economist()
+  + theme_excel()     # as long as you promise never to use it again
+  + theme_tufte()
+```
+
+---
+
+## spatial data (ggmap)
+
+The `ggmap` package builds on `ggplot` to map spatial data.
+
+```{r}
+  library(ggmap)
+  library(ggplot2)
+```
+
+```
+  * Start by plotting a map of your favorite location:
+```
+
+```{r, eval = FALSE}
+  qmap('favorite location', zoom = 13) 
+```
+
+```
+  * now plot the arctas flight tracks on a world map
+  * prepare the data
+  * extract world map information
+  * use ggplot to create a plot object
+  * view the plot
+```
+
+```{r}
+  data <- mutate(arctas_data,
+                 longitude = ((longitude + 180) %% 360) - 180)
+```
+
+```{r}
+  map_world <- borders("world", colour="gray50", fill= "gray50")
+```
+
+```{r, eval = FALSE}
+  map <- ggplot() +
+         map_world +
+         geom_point(aes(x = longitude, y = latitude, colour = o3),
+                    size = 1,
+                    data = data) +
+         scale_colour_gradientn(colours = terrain.colors(10))
+
+  map
+```
+
+* The `ggmaps` package contains tools for plotting spatial maps:
+
+```
+  * extract a single flight
+```
+
+```{r}
+  data <- filter(arctas_data, flight == 8) %>%
+          mutate(longitude = ((longitude + 180) %% 360) - 180)
+```
+
+```
+  * calculate the require zoom
+```
+
+```{r}
+  zoom <- calc_zoom(longitude, latitude, data = data) - 1
+```
+
+```
+  * download map data
+```
+
+```{r}
+  map <- get_map(location = c(lon = mean(data$longitude),
+                               lat = mean(data$latitude)),
+                 zoom = zoom,
+                 maptype = "satellite",
+                 source = "google")
+```
+
+```
+  * combine the map with the flight track
+```
+
+```{r}
+  map <- ggmap(map) +
+         geom_path(aes(x = longitude, y = latitude, colour = o3),
+                   size = 2,
+                   data = data) +
+          scale_colour_gradientn(colours = terrain.colors(10))
+```
+
+---
