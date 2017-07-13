@@ -20,7 +20,7 @@ output:
 
 You can create an *R Studio* project to organize your work. An **R Studio** project has its own working directory, workspace, history, and source files.
 
-* To create am **R Studio** project navigate to: `File -> New Project -> Create Project` (giving the new folder a name via the dialog).
+* To create an **R Studio** project navigate to: `File -> New Project -> Create Project` (giving the new folder a name via the dialog).
 
 * Select either `New directory -> Empty Project` or `Existing Directory -> Create Project` (selecting an existing folder via the dialog)
 
@@ -28,7 +28,7 @@ You can create an *R Studio* project to organize your work. An **R Studio** proj
 
 The base functionality of R is expanded upon by installing additional packages. In this section we'll install all the packages we're going to use today. You can install packages using the `install.packages()` function or via the **R Studio** user interface (`tools -> install packages`).
 
-* The [rmarkdown](http://rmarkdown.rstudio.com) package allows you to combine: code, its output and text into a single document in **R Studio** (like the one you are reading now). **R Markdown** supports R and other languages (e.g. Python and SQL). You can output in numerous formats such as *html*, *word* and *pdf*. We'll be outputting to **html**.
+* The [rmarkdown](http://rmarkdown.rstudio.com) package allows you to combine: code, its output and text into a single document in **R Studio** (like the one you are reading now). **R Markdown** supports R and other languages (e.g. Python and SQL). You can output in numerous formats such as *html*, *word* and *pdf*. We'll output to **html**.
 
 ```{r, eval=FALSE}
   install.packages("rmarkdown")
@@ -37,20 +37,20 @@ The base functionality of R is expanded upon by installing additional packages. 
 
 * The [tidyverse](http://tidyverse.org) is a collection of [data science](http://r4ds.had.co.nz) focused packages underpinned by common (and evolving) approaches to data manipulation.
 
-The `install.packages("tidyverse")` command will install the core *tidyverse* packages
+* The `install.packages("tidyverse")` command will install the core *tidyverse* packages
 
 ```{r, eval=FALSE}
   install.packages("tidyverse")
 ```
 
-Some additional tidyverse packages we'll use are `magrittr` that adds operators to make code more readable and `lubridate` for date-time manipulation.
+* Some additional tidyverse packages we'll use are `magrittr` that adds operators to make code more readable and `lubridate` for date-time manipulation.
 
 ```{r, eval=FALSE}
   install.packages("magrittr")
   install.packages("lubridate")
 ```
 
-The `tidyverse` includes the powerful `ggplot2` library. For spatial analysis we'll include install the `ggmaps` and `plotly` packages. We'll also install the `ggthemes` package.
+* The `tidyverse` includes the powerful `ggplot2` library. For spatial analysis we'll include install the `ggmaps` and `plotly` packages. We'll also install the `ggthemes` package.
 
 ```{r, eval=FALSE}
   install.packages("ggmaps")
@@ -64,9 +64,11 @@ The `tidyverse` includes the powerful `ggplot2` library. For spatial analysis we
 
 We're going to look at some data from the [Arctas](https://www-air.larc.nasa.gov/cgi-bin/arcstat-c) project. You'll need to download the [dataset](https://tinyurl.com/R-for-fire-data). Navigate to `data -> arctas` download the data and save it to a folder **inside your project folder** `project folder/arctas/`.
 
+---
+
 ## Source file
 
-To speed things up we'll use some code I've already written. You'll need to download the [scripts folder](https://tinyurl.com/R-for-fire-data). Download the folder and save it **in your project folder**.
+To speed things up we'll use some code I've already written. You'll need to download the [scripts folder](https://tinyurl.com/R-for-fire-data). Download the folder and save it in your **project folder**.
 
 ---
 
@@ -86,13 +88,13 @@ To speed things up we'll use some code I've already written. You'll need to down
 
 * Navigate to `File -> New File -> R Markdown -> ok` making sure the `document` and `html` options are selected. You'll also want to give your project a name.
 
-* Save your **R markdown** file in your project file (`File Save`)
+* Save your **R markdown** file in your project file (`File Save`).
 
 * Press the **Knit** button, what happens?
 
-* Take a moment to relate the text in your markdown document to the output
+* Take a moment to relate the text in your markdown document to the output.
 
-* Remove all the code from the **R Markdown** heading down
+* Remove all the code from the **R Markdown** heading down.
 
 * Use the `#` symbol to create a new section header **Load Data**
 
@@ -110,7 +112,7 @@ You can add a *chunk* of code to your *markdown* document using the *insert butt
 
 * Copy the code below into the body of the *chunk*.
 
-* Use green arrow to run the code
+* Use green arrow in the top right of the chunk box to run the code.
 
 ```{r, cache=TRUE}
   library(tidyverse)
@@ -131,7 +133,7 @@ You can add a *chunk* of code to your *markdown* document using the *insert butt
 
 ---
 
-```{r, include=FALSE}
+```{r, include=FALSE, echo=FALSE}
  sourcecode <- "\\`r code here\\`"
  sourcecode2 <- "\\`r length(unique(arctas_data$flight))\\`"
 ```
