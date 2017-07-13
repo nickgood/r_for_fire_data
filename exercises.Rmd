@@ -133,12 +133,12 @@ You can add a *chunk* of code to your *markdown* document using the *insert butt
 
 ---
 
+## Inline code
+
 ```{r, include=FALSE, echo=FALSE}
  sourcecode <- "\\`r code here\\`"
  sourcecode2 <- "\\`r length(unique(arctas_data$flight))\\`"
 ```
-
-## Inline code
 
 You can write code that is evaluated inline with your text using `r sourcecode`. For example we can count the number flights in the data set using `r sourcecode2`. So that we print: ***There are `r length(unique(arctas_data$flight))` flights in the dataset***.
 
