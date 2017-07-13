@@ -18,7 +18,7 @@ output:
 
 ## Exercises
 
-You can download the .html exercises file from here: [exercises](https://tinyurl.com/R-for-fire-data).
+Download the .html [exercises](https://tinyurl.com/R-for-fire-data) file.
 
 ## R projects
 
@@ -66,7 +66,7 @@ The base functionality of R is expanded upon by installing additional packages. 
 
 ## Data
 
-We're going to look at some data from the [Arctas](https://www-air.larc.nasa.gov/cgi-bin/arcstat-c) project. You'll need to download the [dataset](https://tinyurl.com/R-for-fire-data). Navigate to `data -> arctas` download the data and save it to a folder **inside your project folder** `project folder/arctas/`.
+We're going to look at some data from the [Arctas](https://www-air.larc.nasa.gov/cgi-bin/arcstat-c) project. You'll need to download the [dataset](https://tinyurl.com/R-for-fire-data). Navigate to `data -> arctas` download the data and save it to a **folder inside your project folder** `project folder/arctas/`.
 
 ---
 
@@ -115,6 +115,8 @@ You can add a *chunk* of code to your *markdown* document using the *insert butt
 * Add several carriage returns below your title and press `insert -> R`.
 
 * Copy the code below into the body of the *chunk*.
+
+* Update the file path to work with your `working directory`. The `getwd()` function wil be useful.
 
 * Use green arrow in the top right of the chunk box to run the code.
 
@@ -171,7 +173,7 @@ e.g. surround text with:
 
 There are multiple packages for adding tables to *R Markdown* documents for example *knitr*.
 
-* add the code chunk to below to your document.
+* add the code chunk below to your document and alter the caption to something meaniningful.
 
 ```{r}
   library(knitr)
@@ -181,6 +183,16 @@ There are multiple packages for adding tables to *R Markdown* documents for exam
 ---
 
 # Data manipulation
+
+---
+
+## Resources
+
+* The [tidyverse website](http://tidyverse.org)
+
+* The [R for data science book](http://r4ds.had.co.nz)
+
+* The [Advanced R book](http://adv-r.had.co.nz)
 
 ---
 
@@ -223,42 +235,7 @@ Or you can include them explicitly:
 
 ---
 
-## Reshape data
-
-Inevitably you will encounter data in inconvenient layouts. The `tidyr` package contains tools for reshaping your data.
-
-* the `gather()` function converts data to a longer format
-
-```
- * Add the code chunk below to your markdown
-```
-
-```{r}
-  data_longer <- arctas_data %>%
-                 select(flight, utc, no, noy, o3, no2_ncar, no2_ucb) %>%
-                 gather("var", "val", 3:7)
-```
-
-```
- * What is the %>% doing? Trying typing ?"%>%" into the console.
-
- * Use the head() function to look at the first 5 lines of the data object
-```
-
-* the `spread()` function converts data to a wider format
-
-```
- * Add the code chunk below to your markdown
-```
-
-```{r}
-  data_wider <- data_longer %>%
-                spread(var, val)
-```
-
----
-
-## Select data
+## Selecting data
 
 Often you'll want to select a subset of your data. If your data is in a table you'll likely want to select by rows or columns. The `dplyr` package contains the tools you'll need to do this:
 
@@ -294,6 +271,41 @@ For example:
 
 ```
  * try selecting a different set of columns
+```
+
+---
+
+## Reshape data
+
+Inevitably you will encounter data in inconvenient layouts. The `tidyr` package contains tools for reshaping your data.
+
+* the `gather()` function converts data to a longer format
+
+```
+ * Add the code chunk below to your markdown
+```
+
+```{r}
+  data_longer <- arctas_data %>%
+                 select(flight, utc, no, noy, o3, no2_ncar, no2_ucb) %>%
+                 gather("var", "val", 3:7)
+```
+
+```
+ * What is the %>% doing? Trying typing ?"%>%" into the console.
+
+ * Use the head() function to look at the first 5 lines of the data object
+```
+
+* the `spread()` function converts data to a wider format
+
+```
+ * Add the code chunk below to your markdown
+```
+
+```{r}
+  data_wider <- data_longer %>%
+                spread(var, val)
 ```
 
 ---

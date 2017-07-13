@@ -225,7 +225,7 @@ div.tocify {
 <h1>Getting started</h1>
 <div id="exercises" class="section level2">
 <h2>Exercises</h2>
-<p>You can download the .html exercises file from here: <a href="https://tinyurl.com/R-for-fire-data">exercises</a>.</p>
+<p>Download the .html <a href="https://tinyurl.com/R-for-fire-data">exercises</a> file.</p>
 </div>
 <div id="r-projects" class="section level2">
 <h2>R projects</h2>
@@ -263,7 +263,7 @@ div.tocify {
 </div>
 <div id="data" class="section level2">
 <h2>Data</h2>
-<p>We’re going to look at some data from the <a href="https://www-air.larc.nasa.gov/cgi-bin/arcstat-c">Arctas</a> project. You’ll need to download the <a href="https://tinyurl.com/R-for-fire-data">dataset</a>. Navigate to <code>data -&gt; arctas</code> download the data and save it to a folder <strong>inside your project folder</strong> <code>project folder/arctas/</code>.</p>
+<p>We’re going to look at some data from the <a href="https://www-air.larc.nasa.gov/cgi-bin/arcstat-c">Arctas</a> project. You’ll need to download the <a href="https://tinyurl.com/R-for-fire-data">dataset</a>. Navigate to <code>data -&gt; arctas</code> download the data and save it to a <strong>folder inside your project folder</strong> <code>project folder/arctas/</code>.</p>
 <hr />
 </div>
 <div id="source-file" class="section level2">
@@ -303,6 +303,7 @@ div.tocify {
 <ul>
 <li><p>Add several carriage returns below your title and press <code>insert -&gt; R</code>.</p></li>
 <li><p>Copy the code below into the body of the <em>chunk</em>.</p></li>
+<li><p>Update the file path to work with your <code>working directory</code>. The <code>getwd()</code> function wil be useful.</p></li>
 <li><p>Use green arrow in the top right of the chunk box to run the code.</p></li>
 </ul>
 <pre class="r"><code>  library(tidyverse)
@@ -348,7 +349,7 @@ div.tocify {
 <h2>Tables</h2>
 <p>There are multiple packages for adding tables to <em>R Markdown</em> documents for example <em>knitr</em>.</p>
 <ul>
-<li>add the code chunk to below to your document.</li>
+<li>add the code chunk below to your document and alter the caption to something meaniningful.</li>
 </ul>
 <pre class="r"><code>  library(knitr)
   kable(arctas_data[1:5,1:4], caption = &quot;Table caption&quot;)</code></pre>
@@ -358,6 +359,15 @@ div.tocify {
 <div id="data-manipulation" class="section level1">
 <h1>Data manipulation</h1>
 <hr />
+<div id="resources-1" class="section level2">
+<h2>Resources</h2>
+<ul>
+<li><p>The <a href="http://tidyverse.org">tidyverse website</a></p></li>
+<li><p>The <a href="http://r4ds.had.co.nz">R for data science book</a></p></li>
+<li><p>The <a href="http://adv-r.had.co.nz">Advanced R book</a></p></li>
+</ul>
+<hr />
+</div>
 <div id="packages" class="section level2">
 <h2>Packages</h2>
 <p>We’ll use some of the <strong>tidyverse</strong> packages to manipulate our data:</p>
@@ -384,29 +394,8 @@ div.tocify {
  * Use glimpse(arctas_data) to look at your data in the console</code></pre>
 <hr />
 </div>
-<div id="reshape-data" class="section level2">
-<h2>Reshape data</h2>
-<p>Inevitably you will encounter data in inconvenient layouts. The <code>tidyr</code> package contains tools for reshaping your data.</p>
-<ul>
-<li>the <code>gather()</code> function converts data to a longer format</li>
-</ul>
-<pre><code> * Add the code chunk below to your markdown</code></pre>
-<pre class="r"><code>  data_longer &lt;- arctas_data %&gt;%
-                 select(flight, utc, no, noy, o3, no2_ncar, no2_ucb) %&gt;%
-                 gather(&quot;var&quot;, &quot;val&quot;, 3:7)</code></pre>
-<pre><code> * What is the %&gt;% doing? Trying typing ?&quot;%&gt;%&quot; into the console.
-
- * Use the head() function to look at the first 5 lines of the data object</code></pre>
-<ul>
-<li>the <code>spread()</code> function converts data to a wider format</li>
-</ul>
-<pre><code> * Add the code chunk below to your markdown</code></pre>
-<pre class="r"><code>  data_wider &lt;- data_longer %&gt;%
-                spread(var, val)</code></pre>
-<hr />
-</div>
-<div id="select-data" class="section level2">
-<h2>Select data</h2>
+<div id="selecting-data" class="section level2">
+<h2>Selecting data</h2>
 <p>Often you’ll want to select a subset of your data. If your data is in a table you’ll likely want to select by rows or columns. The <code>dplyr</code> package contains the tools you’ll need to do this:</p>
 <ul>
 <li>the filter function allows you to select rows based on logical criteria for the values they contain</li>
@@ -426,6 +415,27 @@ div.tocify {
 <pre class="r"><code>  data_select &lt;- arctas_data %&gt;%
                  select(flight, utc, no, noy, o3, no2_ncar, no2_ucb)</code></pre>
 <pre><code> * try selecting a different set of columns</code></pre>
+<hr />
+</div>
+<div id="reshape-data" class="section level2">
+<h2>Reshape data</h2>
+<p>Inevitably you will encounter data in inconvenient layouts. The <code>tidyr</code> package contains tools for reshaping your data.</p>
+<ul>
+<li>the <code>gather()</code> function converts data to a longer format</li>
+</ul>
+<pre><code> * Add the code chunk below to your markdown</code></pre>
+<pre class="r"><code>  data_longer &lt;- arctas_data %&gt;%
+                 select(flight, utc, no, noy, o3, no2_ncar, no2_ucb) %&gt;%
+                 gather(&quot;var&quot;, &quot;val&quot;, 3:7)</code></pre>
+<pre><code> * What is the %&gt;% doing? Trying typing ?&quot;%&gt;%&quot; into the console.
+
+ * Use the head() function to look at the first 5 lines of the data object</code></pre>
+<ul>
+<li>the <code>spread()</code> function converts data to a wider format</li>
+</ul>
+<pre><code> * Add the code chunk below to your markdown</code></pre>
+<pre class="r"><code>  data_wider &lt;- data_longer %&gt;%
+                spread(var, val)</code></pre>
 <hr />
 </div>
 <div id="combine-data" class="section level2">
