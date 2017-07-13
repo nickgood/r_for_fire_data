@@ -54,10 +54,10 @@ The base functionality of R is expanded upon by installing additional packages. 
   install.packages("lubridate")
 ```
 
-* The `tidyverse` includes the powerful `ggplot2` library. For spatial analysis we'll include install the `ggmaps` and `plotly` packages. We'll also install the `ggthemes` package.
+* The `tidyverse` includes the powerful `ggplot2` library. For spatial analysis we'll include install the `ggmap` and `plotly` packages. We'll also install the `ggthemes` package.
 
 ```{r,}
-  install.packages("ggmaps")
+  install.packages("ggmap")
   install.packages("plotly")
   install.packages("ggthemes")
 ```
