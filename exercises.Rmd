@@ -16,6 +16,10 @@ output:
 
 # Getting started
 
+## Exercises
+
+You can download the .html exercises file from here: [dataset](https://tinyurl.com/R-for-fire-data).
+
 ## R projects
 
 You can create an *R Studio* project to organize your work. An **R Studio** project has its own working directory, workspace, history, and source files.
