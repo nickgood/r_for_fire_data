@@ -329,8 +329,8 @@ div.tocify {
 <div id="appearance" class="section level2">
 <h2>Appearance</h2>
 <p>The appearance of your <strong>R Markdown</strong> document can be formatted.</p>
-<pre><code>e.g. surround txt with:
- * to make italic 
+<pre><code>e.g. surround text with:
+ * to make italic
  ** to make bold
  $ to add latex style equations
  [text](url) to add a web link to your markdown document</code></pre>
@@ -421,7 +421,7 @@ div.tocify {
 <p>For example:</p>
 <pre class="r"><code>  data_select &lt;- arctas_data %&gt;%
                  select(flight, utc, no, noy, o3, no2_ncar, no2_ucb)</code></pre>
-<pre><code> * Try selecting a different set of columns</code></pre>
+<pre><code> * try selecting a different set of columns</code></pre>
 <hr />
 </div>
 <div id="combine-data" class="section level2">
@@ -447,7 +447,7 @@ div.tocify {
   
   data_n_a &lt;- bind_cols(data_n, data_a)</code></pre>
 <ul>
-<li>To join data by a common variable or variables use an <code>_join</code> function.</li>
+<li>To join data by a common variable or variables use a <code>_join</code> function.</li>
 </ul>
 <p>For example some notes pertaining to given flights</p>
 <pre class="r"><code>  notes &lt;- data_frame(flight = unique(arctas_data$flight)) %&gt;%
@@ -475,7 +475,7 @@ div.tocify {
 <li><p>We can use <code>summarize_all()</code> to calculate the statistic for all the columns in a data frame.</p></li>
 <li><p>The data can be ungrouped using the <code>ungroup()</code> function.</p></li>
 </ul>
-<pre><code> * Group the data by flight and calculate the mean and standard deviation of the ozone mixing ratio</code></pre>
+<pre><code> * group the data by flight and calculate the mean and standard deviation of the ozone mixing ratio</code></pre>
 <pre class="r"><code>  data_summary_o3 &lt;- arctas_data %&gt;%
                   group_by(flight) %&gt;%
                   summarise(mean_o3 = mean(o3, na.rm = TRUE),
@@ -535,6 +535,16 @@ div.tocify {
 <pre class="r"><code>  + theme_economist()
   + theme_excel()     # as long as you promise never to use it again
   + theme_tufte()</code></pre>
+<ul>
+<li>It can be useful to separate into small-multiples (facets)</li>
+</ul>
+<pre class="r"><code>  data_plot &lt;- arctas_data %&gt;% 
+               select(flight, utc, o3) %&gt;%
+               filter(!is.na(o3))
+
+  ggplot(data_plot, aes(utc, o3)) +
+  geom_point() +
+  facet_wrap(~flight, ncol = 3)</code></pre>
 <hr />
 </div>
 <div id="spatial-data-ggmap" class="section level2">
@@ -542,16 +552,25 @@ div.tocify {
 <p>The <code>ggmap</code> package builds on <code>ggplot</code> to map spatial data.</p>
 <pre class="r"><code>  library(ggmap)
   library(ggplot2)</code></pre>
-<pre><code>  * Start by plotting a map of your favorite location:</code></pre>
+<pre><code>  * start by plotting a map of your favorite location:</code></pre>
 <pre class="r"><code>  qmap('favorite location', zoom = 13) </code></pre>
 <pre><code>  * now plot the arctas flight tracks on a world map
   * prepare the data
   * extract world map information
   * use ggplot to create a plot object
   * view the plot</code></pre>
+<ul>
+<li>convert the longitude units:</li>
+</ul>
 <pre class="r"><code>  data &lt;- mutate(arctas_data,
                  longitude = ((longitude + 180) %% 360) - 180)</code></pre>
+<ul>
+<li>a quick way to get some map data</li>
+</ul>
 <pre class="r"><code>  map_world &lt;- borders(&quot;world&quot;, colour=&quot;gray50&quot;, fill= &quot;gray50&quot;)</code></pre>
+<ul>
+<li>add flight track and plot</li>
+</ul>
 <pre class="r"><code>  map &lt;- ggplot() +
          map_world +
          geom_point(aes(x = longitude, y = latitude, colour = o3),
@@ -561,7 +580,7 @@ div.tocify {
 
   map</code></pre>
 <ul>
-<li>The <code>ggmaps</code> package contains tools for plotting spatial maps:</li>
+<li>The <code>ggmaps</code> package contains tools for plotting spatial maps with greater control:</li>
 </ul>
 <pre><code>  * extract a single flight</code></pre>
 <pre class="r"><code>  data &lt;- filter(arctas_data, flight == 8) %&gt;%
@@ -581,6 +600,16 @@ div.tocify {
                    data = data) +
           scale_colour_gradientn(colours = terrain.colors(10))</code></pre>
 <hr />
+</div>
+<div id="interactive-maps" class="section level2">
+<h2>Interactive maps</h2>
+<p>The <a href="https://plot.ly/r/">plotly</a> package allows you to create interactive graphics.</p>
+<pre class="r"><code>  library(plotly)</code></pre>
+<p>It works simply with <code>ggplot</code> objects:</p>
+<ul>
+<li>use the <code>ggplotly()</code> function to convert a <code>ggplot</code> object to an interactive <code>plotly</code> graphic.</li>
+</ul>
+<pre class="r"><code>  ggplotly(map)</code></pre>
 </div>
 </div>
 
