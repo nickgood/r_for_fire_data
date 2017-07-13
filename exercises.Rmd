@@ -18,7 +18,7 @@ output:
 
 ## Exercises
 
-You can download the .html exercises file from here: [dataset](https://tinyurl.com/R-for-fire-data).
+You can download the .html exercises file from here: [exercises](https://tinyurl.com/R-for-fire-data).
 
 ## R projects
 
