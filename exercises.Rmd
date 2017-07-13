@@ -9,7 +9,7 @@ output:
 ---
 
 ```{r global_options, include=FALSE}
-  knitr::opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE, results = 'hide')
+  knitr::opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE, results = 'hide', eval = FALSE)
 ```
 
 ---
@@ -30,7 +30,7 @@ The base functionality of R is expanded upon by installing additional packages. 
 
 * The [rmarkdown](http://rmarkdown.rstudio.com) package allows you to combine: code, its output and text into a single document in **R Studio** (like the one you are reading now). **R Markdown** supports R and other languages (e.g. Python and SQL). You can output in numerous formats such as *html*, *word* and *pdf*. We'll output to **html**.
 
-```{r, eval=FALSE}
+```{r,}
   install.packages("rmarkdown")
   install.packages("knitr")
 ```
@@ -39,20 +39,20 @@ The base functionality of R is expanded upon by installing additional packages. 
 
 * The `install.packages("tidyverse")` command will install the core *tidyverse* packages
 
-```{r, eval=FALSE}
+```{r,}
   install.packages("tidyverse")
 ```
 
 * Some additional tidyverse packages we'll use are `magrittr` that adds operators to make code more readable and `lubridate` for date-time manipulation.
 
-```{r, eval=FALSE}
+```{r,}
   install.packages("magrittr")
   install.packages("lubridate")
 ```
 
 * The `tidyverse` includes the powerful `ggplot2` library. For spatial analysis we'll include install the `ggmaps` and `plotly` packages. We'll also install the `ggthemes` package.
 
-```{r, eval=FALSE}
+```{r,}
   install.packages("ggmaps")
   install.packages("plotly")
   install.packages("ggthemes")
@@ -114,7 +114,7 @@ You can add a *chunk* of code to your *markdown* document using the *insert butt
 
 * Use green arrow in the top right of the chunk box to run the code.
 
-```{r, cache=TRUE}
+```{r, cache=TRUE, eval=TRUE}
   library(tidyverse)
   library(magrittr)
 
@@ -135,7 +135,7 @@ You can add a *chunk* of code to your *markdown* document using the *insert butt
 
 ## Inline code
 
-```{r, include=FALSE, echo=FALSE}
+```{r, echo=FALSE, eval=TRUE}
  sourcecode <- "\\`r code here\\`"
  sourcecode2 <- "\\`r length(unique(arctas_data$flight))\\`"
 ```
@@ -151,8 +151,8 @@ You can write code that is evaluated inline with your text using `r sourcecode`.
 The appearance of your **R Markdown** document can be formatted.
 
 ```
-e.g. surround txt with:
- * to make italic 
+e.g. surround text with:
+ * to make italic
  ** to make bold
  $ to add latex style equations
  [text](url) to add a web link to your markdown document
@@ -289,7 +289,7 @@ For example:
 ```
 
 ```
- * Try selecting a different set of columns
+ * try selecting a different set of columns
 ```
 
 ---
@@ -324,7 +324,7 @@ For example to combine data with the same number of rows:
   data_n_a <- bind_cols(data_n, data_a)
 ```
 
-* To join data by a common variable or variables use an `_join` function.
+* To join data by a common variable or variables use a `_join` function.
 
 For example some notes pertaining to given flights
 
@@ -362,7 +362,7 @@ The `group_by()` and `summarize` functions are useful for data reduction. Often 
 * The data can be ungrouped using the `ungroup()` function.
 
 ```
- * Group the data by flight and calculate the mean and standard deviation of the ozone mixing ratio
+ * group the data by flight and calculate the mean and standard deviation of the ozone mixing ratio
 ```
 
 ```{r}
@@ -409,7 +409,7 @@ As a minimum, each `ggplot` graphic requires at least three elements:
 
 Let's start with a time series plot.
 
-```{r basics, eval = FALSE}
+```{r basics,}
   ggplot(data = filter(arctas_data,
                        flight == 10,
                        !is.na(o3)),
@@ -431,7 +431,7 @@ Let's plot multiple pollutants
 
 * Now we can plot the data
 
-```{r, eval = FALSE}
+```{r,}
   ggplot(data_plot, aes(utc, val, color = var)) +
   geom_point() +
   scale_y_log10()
@@ -449,6 +449,18 @@ Let's plot multiple pollutants
   + theme_tufte()
 ```
 
+ * It can be useful to separate into small-multiples (facets)
+ 
+```{r, fig.width= 12, fig.height=20}
+  data_plot <- arctas_data %>% 
+               select(flight, utc, o3) %>%
+               filter(!is.na(o3))
+
+  ggplot(data_plot, aes(utc, o3)) +
+  geom_point() +
+  facet_wrap(~flight, ncol = 3)
+```
+
 ---
 
 ## spatial data (ggmap)
@@ -461,7 +473,7 @@ The `ggmap` package builds on `ggplot` to map spatial data.
 ```
 
 ```
-  * Start by plotting a map of your favorite location:
+  * start by plotting a map of your favorite location:
 ```
 
 ```{r, eval = FALSE}
@@ -476,16 +488,22 @@ The `ggmap` package builds on `ggplot` to map spatial data.
   * view the plot
 ```
 
+* convert the longitude units:
+
 ```{r}
   data <- mutate(arctas_data,
                  longitude = ((longitude + 180) %% 360) - 180)
 ```
 
+* a quick way to get some map data
+
 ```{r}
   map_world <- borders("world", colour="gray50", fill= "gray50")
 ```
 
-```{r, eval = FALSE}
+* add flight track and plot
+
+```{r,}
   map <- ggplot() +
          map_world +
          geom_point(aes(x = longitude, y = latitude, colour = o3),
@@ -496,7 +514,7 @@ The `ggmap` package builds on `ggplot` to map spatial data.
   map
 ```
 
-* The `ggmaps` package contains tools for plotting spatial maps:
+* The `ggmaps` package contains tools for plotting spatial maps with greater control:
 
 ```
   * extract a single flight
@@ -540,3 +558,19 @@ The `ggmap` package builds on `ggplot` to map spatial data.
 ```
 
 ---
+
+## Interactive maps
+
+The [plotly](https://plot.ly/r/) package allows you to create interactive graphics.
+
+```{r}
+  library(plotly)
+```
+
+It works simply with `ggplot` objects:
+
+* use the `ggplotly()` function to convert a `ggplot` object to an interactive `plotly` graphic.
+
+```{r}
+  ggplotly(map)
+```
